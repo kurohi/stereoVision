@@ -10,6 +10,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <string>
+#include <stdexcept>
 #include <cmath>
 
 

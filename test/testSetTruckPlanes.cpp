@@ -4,34 +4,12 @@
 #include<pclGetPlanes.hpp>
 
 int main(int argc, char **argv){
-	if(argc<2){
-		std::cout<<"Need to specify the calibration file"<<std::endl;
+	if(argc<3){
+		std::cout<<"Need to specify the calibration file and the disparity image"<<std::endl;
 		return 1;
 	}
 	//reating the disparity map for the empty truck
-	cv::Mat img1,img2, disparity;
-	TwinCamera twin(0,1);
-	if(argc!=4){
-		twin.getDoubleImages(img1,img2);
-	}else{
-		img1 = cv::imread(argv[2]);
-		img2 = cv::imread(argv[3]);
-	}
-	twin.loadCameraParameters(argv[1], img1, img2);
-	StereoDepth stereoDepth;
-	twin.rectifyForStereo(img1, img2);
-	stereoDepth.setImage1(img1);
-	stereoDepth.setImage2(img2);
-	if(stereoDepth.doDepth()){
-		disparity = stereoDepth.getDisparity();
-		imwrite("img1.jpg",img1);
-		imwrite("img2.jpg",img2);
-		
-		imwrite("emptyTruck.jpg", disparity);
-	}else{
-		std::cout<<"Error when computing the stereo image."<<std::endl;
-		return 1;
-	}
+	cv::Mat disparity = cv::imread(argv[2], cv::IMREAD_GRAYSCALE);
 	
 	//creating the computePlanes object with 5 planes to calculate
 	pclGetPlanes computePlanes(5);

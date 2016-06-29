@@ -19,7 +19,7 @@ pclGetPlanes::~pclGetPlanes(){
 }
 
 bool pclGetPlanes::computePaneByIndex(pcl::PointCloud<pcl::PointXYZ>::Ptr points, int index){
-	if((index==-1)||(index==planes.size())){
+	if((index==-1)||(index>=planes.size())){
 		pcl::ModelCoefficients::Ptr modelPointer(new pcl::ModelCoefficients);
 		pcl::PointIndices::Ptr inlinerPointer (new pcl::PointIndices);
 		planes.push_back(modelPointer);
@@ -60,6 +60,29 @@ std::vector<double> pclGetPlanes::getCoeficientsForIndex(int index){
 	return coeficients;
 	
 }
+
+void pclGetPlanes::setCoeficientsForIndex(std::vector<double> coefs, int index){
+	if(coefs.size() < 4){
+		throw(std::runtime_error("invalid plane coeficients"));
+	}
+	if((index==-1)||(index>=planes.size())){
+		pcl::ModelCoefficients::Ptr modelPointer(new pcl::ModelCoefficients);
+		pcl::PointIndices::Ptr inlinerPointer (new pcl::PointIndices);
+		planes.push_back(modelPointer);
+		inliners.push_back(inlinerPointer);
+	}
+	if(index==-1){
+		index = planes.size()-1;
+	}
+	for(int i=0; i<4; i++){
+		if(i>=planes[index]->values.size()){
+			planes[index]->values.push_back(coefs[i]);
+		}else{
+			planes[index]->values[i] = coefs[i];
+		}
+	}
+}
+
 
 pcl::PointIndices::Ptr pclGetPlanes::getInlinersForIndex(int index){
 	if((index<0)||(index>=inliners.size())){
@@ -106,7 +129,7 @@ void pclGetPlanes::cutImageForPlanes(cv::Mat src, cv::Mat &dst, int index){
 }
 
 bool pclGetPlanes::addLoadedCoeficients(pcl::PointCloud<pcl::PointXYZ>::Ptr points, float a, float b, float c, float d, int index){
-	if((index==-1)||(index==planes.size())){
+	if((index==-1)||(index>=planes.size())){
 		pcl::ModelCoefficients::Ptr modelPointer(new pcl::ModelCoefficients);
 		pcl::PointIndices::Ptr inlinerPointer (new pcl::PointIndices);
 		planes.push_back(modelPointer);

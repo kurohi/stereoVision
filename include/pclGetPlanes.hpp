@@ -18,6 +18,7 @@ public:
 	~pclGetPlanes();
 	bool computePaneByIndex(pcl::PointCloud<pcl::PointXYZ>::Ptr points, int index=-1);
 	std::vector<double> getCoeficientsForIndex(int index);
+	void setCoeficientsForIndex(std::vector<double> coefs, int index);
 	pcl::PointIndices::Ptr getInlinersForIndex(int index);
 	bool isOnPlane(pcl::PointXYZ point, int index);
 	double distanceFromPlane(pcl::PointXYZ, int index);
