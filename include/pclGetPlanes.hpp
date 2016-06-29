@@ -20,6 +20,7 @@ public:
 	std::vector<double> getCoeficientsForIndex(int index);
 	pcl::PointIndices::Ptr getInlinersForIndex(int index);
 	bool isOnPlane(pcl::PointXYZ point, int index);
+	double distanceFromPlane(pcl::PointXYZ, int index);
 	
 	
 	//in this case the indexes are decided between left, right, top, bottom

@@ -146,3 +146,7 @@ bool pclGetPlanes::computeInliners(pcl::PointCloud<pcl::PointXYZ>::Ptr points, i
 bool pclGetPlanes::isOnPlane(pcl::PointXYZ point, int index){
 	return pcl::pointToPlaneDistance(point, planes[index]->values[0],planes[index]->values[1], planes[index]->values[2], planes[index]->values[3]) < THRESHOLD;
 }
+
+double pclGetPlanes::distanceFromPlane(pcl::PointXYZ point, int index){
+	return pcl::pointToPlaneDistance(point, planes[index]->values[0],planes[index]->values[1], planes[index]->values[2], planes[index]->values[3]);
+}
