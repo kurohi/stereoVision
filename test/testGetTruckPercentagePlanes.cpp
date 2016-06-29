@@ -60,6 +60,7 @@ int main(int argc, char **argv){
 		if(	(computePlanes.isOnPlane(points_full->points[i], pclGetPlanes::LEFT_CUT)) ||
 			(computePlanes.isOnPlane(points_full->points[i], pclGetPlanes::RIGHT_CUT)) ||
 			(computePlanes.isOnPlane(points_full->points[i], pclGetPlanes::TOP_CUT)) ||
+			(computePlanes.isOnPlane(points_full->points[i], pclGetPlanes::BACK_CUT)) ||
 			(computePlanes.isOnPlane(points_full->points[i], pclGetPlanes::BOTTOM_CUT))) {
 
 			continue;

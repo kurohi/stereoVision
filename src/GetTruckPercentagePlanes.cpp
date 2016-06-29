@@ -50,15 +50,16 @@ int main(int argc, char **argv){
 
 	for(int i=0; i<4;i++){
 		double val;
-		fs2["left_plane_"+(char)(i+'a')] >> val;
+		char c = (i+'a');
+		fs2[std::string("left_plane_").append(1u,c)] >> val;
 		left_plane.push_back(val);
-		fs2["right_plane_"+(char)(i+'a')] >> val;
+		fs2[std::string("right_plane_").append(1u,c)] >> val;
 		right_plane.push_back(val);
-		fs2["top_plane_"+(char)(i+'a')] >> val;
+		fs2[std::string("top_plane_").append(1u,c)] >> val;
 		top_plane.push_back(val);
-		fs2["bottom_plane_"+(char)(i+'a')] >> val;
+		fs2[std::string("bottom_plane_").append(1u,c)] >> val;
 		bottom_plane.push_back(val);
-		fs2["back_plane"+(char)(i+'a')] >> val;
+		fs2[std::string("back_plane_").append(1u,c)] >> val;
 		back_plane.push_back(val);
 	}
 	try{
@@ -76,6 +77,7 @@ int main(int argc, char **argv){
 		if(	(computePlanes.isOnPlane(points_full->points[i], pclGetPlanes::LEFT_CUT)) ||
 			(computePlanes.isOnPlane(points_full->points[i], pclGetPlanes::RIGHT_CUT)) ||
 			(computePlanes.isOnPlane(points_full->points[i], pclGetPlanes::TOP_CUT)) ||
+			(computePlanes.isOnPlane(points_full->points[i], pclGetPlanes::BACK_CUT)) ||
 			(computePlanes.isOnPlane(points_full->points[i], pclGetPlanes::BOTTOM_CUT))) {
 
 			continue;
@@ -84,13 +86,14 @@ int main(int argc, char **argv){
 	}
 	std::cout<<"Valid points: "<<points->points.size()<<std::endl;
 	double total_occupied_volume = 0.0;
-	for(int i=0; i<points->points.size(); i++){
-		total_occupied_volume += computePlanes.distanceFromPlane(points->points[i], pclGetPlanes::BACK_CUT);
-	}
 	pcl::PointXYZ origin;
 	origin.x=origin.y=origin.z=0;
 	double back_plane_distance = computePlanes.distanceFromPlane(origin, pclGetPlanes::BACK_CUT);
+	for(int i=0; i<points->points.size(); i++){
+		total_occupied_volume += computePlanes.distanceFromPlane(points->points[i], pclGetPlanes::BACK_CUT)/back_plane_distance;
+	}
 	std::cout<<"Total occupied volume(voxels): "<<total_occupied_volume <<std::endl;
-	std::cout<<"Total occupied volume(cm^3): "<<(430*total_occupied_volume/back_plane_distance) <<std::endl;
-	std::cout<<"Percentage: "<<(total_occupied_volume/back_plane_distance *100)<<"%"<<std::endl;
+	std::cout<<"Total occupied volume(cm^3): "<<(430*total_occupied_volume) <<std::endl;
+	std::cout<<"Percentage: "<<(total_occupied_volume/(640*480) *100)<<"%"<<std::endl;
+	return 0;
 }
