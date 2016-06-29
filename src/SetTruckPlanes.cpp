@@ -1,3 +1,5 @@
+#include<TwinCamera.hpp>
+#include<StereoDepth.hpp>
 #include<pclView.hpp>
 #include<pclGetPlanes.hpp>
 
@@ -7,7 +9,7 @@ int main(int argc, char **argv){
 		return 1;
 	}
 	//reating the disparity map for the empty truck
-	Mat img1,img2, disparity;
+	cv::Mat img1,img2, disparity;
 	TwinCamera twin(0,1);
 	twin.getDoubleImages(img1,img2);
 	twin.loadCameraParameters(argv[1], img1, img2);
@@ -30,8 +32,17 @@ int main(int argc, char **argv){
 	
 	pcl::PointCloud<pcl::PointXYZ>::Ptr points;
 	pcl::PointCloud<pcl::PointXYZ>::Ptr points_full;
+	cv::Mat Q;
 	cv::Mat cut_image;
-	
+	cv::FileStorage fs(argv[1], cv::FileStorage::READ);
+	fs["Q"] >> Q;
+	//If size of Q is not 4x4 exit
+	if (Q.cols != 4 || Q.rows != 4) {
+		std::cerr << "ERROR: Could not read matrix Q (doesn't exist or size is not 4x4)" << std::endl;
+		return 1;
+	}
+
+	pclView viewtest;
 	points_full = viewtest.convertToPointCloudNoColor(disparity, Q);
 	//cutting the left pclGetPlanes
 	computePlanes.cutImageForPlanes(disparity, cut_image, pclGetPlanes::LEFT_CUT);
@@ -93,30 +104,30 @@ int main(int argc, char **argv){
 	cv::FileStorage fs2("truckPlanes.yml", cv::FileStorage::WRITE);
 	std::vector<double> coefs;
 	coefs = computePlanes.getCoeficientsForIndex(0);
-	fs2<<"left_plane_a"<<coef[0];
-	fs2<<"left_plane_b"<<coef[1];
-	fs2<<"left_plane_c"<<coef[2];
-	fs2<<"left_plane_d"<<coef[3];
+	fs2<<"left_plane_a"<<coefs[0];
+	fs2<<"left_plane_b"<<coefs[1];
+	fs2<<"left_plane_c"<<coefs[2];
+	fs2<<"left_plane_d"<<coefs[3];
 	coefs = computePlanes.getCoeficientsForIndex(1);
-	fs2<<"right_plane_a"<<coef[0];
-	fs2<<"right_plane_b"<<coef[1];
-	fs2<<"right_plane_c"<<coef[2];
-	fs2<<"right_plane_d"<<coef[3];
+	fs2<<"right_plane_a"<<coefs[0];
+	fs2<<"right_plane_b"<<coefs[1];
+	fs2<<"right_plane_c"<<coefs[2];
+	fs2<<"right_plane_d"<<coefs[3];
 	coefs = computePlanes.getCoeficientsForIndex(2);
-	fs2<<"top_plane_a"<<coef[0];
-	fs2<<"top_plane_b"<<coef[1];
-	fs2<<"top_plane_c"<<coef[2];
-	fs2<<"top_plane_d"<<coef[3];
+	fs2<<"top_plane_a"<<coefs[0];
+	fs2<<"top_plane_b"<<coefs[1];
+	fs2<<"top_plane_c"<<coefs[2];
+	fs2<<"top_plane_d"<<coefs[3];
 	coefs = computePlanes.getCoeficientsForIndex(3);
-	fs2<<"bottom_plane_a"<<coef[0];
-	fs2<<"bottom_plane_b"<<coef[1];
-	fs2<<"bottom_plane_c"<<coef[2];
-	fs2<<"bottom_plane_d"<<coef[3];
+	fs2<<"bottom_plane_a"<<coefs[0];
+	fs2<<"bottom_plane_b"<<coefs[1];
+	fs2<<"bottom_plane_c"<<coefs[2];
+	fs2<<"bottom_plane_d"<<coefs[3];
 	coefs = computePlanes.getCoeficientsForIndex(4);
-	fs2<<"back_plane_a"<<coef[0];
-	fs2<<"back_plane_b"<<coef[1];
-	fs2<<"back_plane_c"<<coef[2];
-	fs2<<"back_plane_d"<<coef[3];
+	fs2<<"back_plane_a"<<coefs[0];
+	fs2<<"back_plane_b"<<coefs[1];
+	fs2<<"back_plane_c"<<coefs[2];
+	fs2<<"back_plane_d"<<coefs[3];
 	fs2.release();
 	
 	return 1;
