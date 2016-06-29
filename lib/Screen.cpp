@@ -5,30 +5,30 @@
 #include <Screen.hpp>
 
 Screen::Screen(){
-	screenName = string("Window");
-	namedWindow(screenName.c_str(), WINDOW_NORMAL);
+	screenName = std::string("Window");
+	cv::namedWindow(screenName.c_str(), cv::WINDOW_NORMAL);
 }
 
-Screen::Screen(string name){
+Screen::Screen(std::string name){
 	screenName = name;
-	namedWindow(screenName.c_str(), WINDOW_NORMAL);
+	cv::namedWindow(screenName.c_str(), cv::WINDOW_NORMAL);
 }
 
 Screen::~Screen(){
 }
 
-void Screen::putImage(Mat img){
+void Screen::putImage(cv::Mat img){
 	currentFrame = img;
 	if(img.empty()){
 		throw NULL_IMAGE;
 	}
-	imshow(screenName, currentFrame);
+	cv::imshow(screenName, currentFrame);
 }
 
-string Screen::getScreenName(){
+std::string Screen::getScreenName(){
 	return screenName;
 }
 
-void Screen::drawRectangle(Mat& img, Rect2d rect){
-	rectangle(img, rect, Scalar(255, 0, 0), 2, 1);
+void Screen::drawRectangle(cv::Mat& img, cv::Rect2d rect){
+	cv::rectangle(img, rect, cv::Scalar(255, 0, 0), 2, 1);
 }

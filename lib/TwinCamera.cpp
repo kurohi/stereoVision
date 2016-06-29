@@ -9,8 +9,8 @@ TwinCamera::TwinCamera(int cam1, int cam2){
 TwinCamera::~TwinCamera(){
 }
 
-void TwinCamera::getDoubleImages(Mat &img1, Mat& img2){
-	Mat Mean;
+void TwinCamera::getDoubleImages(cv::Mat &img1, cv::Mat& img2){
+	cv::Mat Mean;
 	Cam1.reopen(camInd1);
 	if(!Cam1.isOpened()){
 		return;
@@ -49,19 +49,19 @@ void TwinCamera::getDoubleImages(Mat &img1, Mat& img2){
 	Cam2.release();
 }
 
-bool TwinCamera::loadCameraParameters(char *filename, Mat img1, Mat img2){
-	Mat CM1, CM2;
-	Mat D1, D2;
-	Mat R, T, E, F;
-	Mat R1, R2, P1, P2, Q;
+bool TwinCamera::loadCameraParameters(char *filename, cv::Mat img1, cv::Mat img2){
+	cv::Mat CM1, CM2;
+	cv::Mat D1, D2;
+	cv::Mat R, T, E, F;
+	cv::Mat R1, R2, P1, P2, Q;
 	
 	try{
-		FileStorage fs(filename, FileStorage::READ);
+		cv::FileStorage fs(filename, cv::FileStorage::READ);
 		if(!fs.isOpened()){
 			return false;
 		}
-		CM1 = Mat(3, 3, CV_64FC1);
-		CM2 = Mat(3, 3, CV_64FC1);
+		CM1 = cv::Mat(3, 3, CV_64FC1);
+		CM2 = cv::Mat(3, 3, CV_64FC1);
 		
 		fs["CM1"] >> CM1;
 		fs["CM2"] >> CM2;
@@ -83,17 +83,17 @@ bool TwinCamera::loadCameraParameters(char *filename, Mat img1, Mat img2){
 		return false;
 	}
 
-	initUndistortRectifyMap(CM1, D1, R1, P1, img1.size(), CV_32FC1, map1x, map1y);
-	initUndistortRectifyMap(CM2, D2, R2, P2, img2.size(), CV_32FC1, map2x, map2y);
+	cv::initUndistortRectifyMap(CM1, D1, R1, P1, img1.size(), CV_32FC1, map1x, map1y);
+	cv::initUndistortRectifyMap(CM2, D2, R2, P2, img2.size(), CV_32FC1, map2x, map2y);
 	calibMatrixLoaded = true;
 	return true;
 }
 
-void TwinCamera::rectifyForStereo(Mat &img1, Mat &img2){
-	Mat imgU1, imgU2;
+void TwinCamera::rectifyForStereo(cv::Mat &img1, cv::Mat &img2){
+	cv::Mat imgU1, imgU2;
 
-	remap(img1, imgU1, map1x, map1y, INTER_LINEAR, BORDER_CONSTANT, Scalar());
-	remap(img2, imgU2, map2x, map2y, INTER_LINEAR, BORDER_CONSTANT, Scalar());
+	cv::remap(img1, imgU1, map1x, map1y, cv::INTER_LINEAR, cv::BORDER_CONSTANT, cv::Scalar());
+	cv::remap(img2, imgU2, map2x, map2y, cv::INTER_LINEAR, cv::BORDER_CONSTANT, cv::Scalar());
 	
 	img1 = imgU1;
 	img2 = imgU2;

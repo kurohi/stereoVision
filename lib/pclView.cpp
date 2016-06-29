@@ -142,7 +142,7 @@ void pclView::visualizeDisparityMap(cv::Mat img_rgb, cv::Mat img_disparity, cv::
 			viewerPtr->spinOnce(100);
 			boost::this_thread::sleep (boost::posix_time::microseconds (100000));
 		}
-	}catch(exception& e){
+	}catch(cv::Exception& e){
 		std::cout << e.what() << std::endl;
 	}
 }

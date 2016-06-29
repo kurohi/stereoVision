@@ -9,23 +9,23 @@
 #include <opencv2/core/utility.hpp>
 #include <opencv2/ximgproc/disparity_filter.hpp>
 
-using namespace cuda;
+using namespace cv::cuda;
 using namespace cv::ximgproc;
 
 class StereoDepth{
 public:
 	StereoDepth();
-	StereoDepth(Mat src1, Mat src2);
+	StereoDepth(cv::Mat src1, cv::Mat src2);
 	~StereoDepth();
 	
 	bool isImageOk();
 	bool isDisparityOk();
 	
-	void setImage1(Mat src);
-	void setImage2(Mat src);
-	Mat getImage1();
-	Mat getImage2();
-	Mat getDisparity();
+	void setImage1(cv::Mat src);
+	void setImage2(cv::Mat src);
+	cv::Mat getImage1();
+	cv::Mat getImage2();
+	cv::Mat getDisparity();
 	
 	bool doDepth();
 	
@@ -55,15 +55,15 @@ public:
 	
 private:
 	void initializeDefaultStereo();
-	Rect computeROI(Size2i src_sz, Ptr<StereoMatcher> matcher_instance);
+	cv::Rect computeROI(cv::Size2i src_sz, cv::Ptr<cv::StereoMatcher> matcher_instance);
 	
-	Mat left, right;
-	Mat left_for_matcher, right_for_matcher;
-    Mat left_disp,right_disp;
-    Mat filtered_disp;
-    Rect ROI;
-	Mat disparity16,disparity8;
-	Ptr<StereoSGBM> stereo_left, stereo_right;
+	cv::Mat left, right;
+	cv::Mat left_for_matcher, right_for_matcher;
+	cv::Mat left_disp,right_disp;
+	cv::Mat filtered_disp;
+	cv::Rect ROI;
+	cv::Mat disparity16,disparity8;
+	cv::Ptr<cv::StereoSGBM> stereo_left, stereo_right;
 	bool is_img_ok, is_disp_ok;
 	double sigma, lambda;
 	

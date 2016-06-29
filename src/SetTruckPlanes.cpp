@@ -52,7 +52,7 @@ int main(int argc, char **argv){
 			std::cout<<"Failed to compute the Left plane"<<std::endl;
 			return 0;
 		}
-	}catch(exception &e){
+	}catch(cv::Exception &e){
 		std::cout << "Exception when computing the left plane" << std::endl;
 	}
 	//cutting the right pclGetPlanes
@@ -63,7 +63,7 @@ int main(int argc, char **argv){
 			std::cout<<"Failed to compute the Left plane"<<std::endl;
 			return 0;
 		}
-	}catch(exception &e){
+	}catch(cv::Exception &e){
 		std::cout << "Exception when computing the left plane" << std::endl;
 	}
 	//cutting the top pclGetPlanes
@@ -74,7 +74,7 @@ int main(int argc, char **argv){
 			std::cout<<"Failed to compute the Left plane"<<std::endl;
 			return 0;
 		}
-	}catch(exception &e){
+	}catch(cv::Exception &e){
 		std::cout << "Exception when computing the left plane" << std::endl;
 	}
 	//cutting the bottom pclGetPlanes
@@ -85,7 +85,7 @@ int main(int argc, char **argv){
 			std::cout<<"Failed to compute the Left plane"<<std::endl;
 			return 0;
 		}
-	}catch(exception &e){
+	}catch(cv::Exception &e){
 		std::cout << "Exception when computing the left plane" << std::endl;
 	}
 	//cutting the back pclGetPlanes
@@ -96,7 +96,7 @@ int main(int argc, char **argv){
 			std::cout<<"Failed to compute the Left plane"<<std::endl;
 			return 0;
 		}
-	}catch(exception &e){
+	}catch(cv::Exception &e){
 		std::cout << "Exception when computing the left plane" << std::endl;
 	}
 	

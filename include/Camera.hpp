@@ -9,7 +9,6 @@
 #include <General.hpp>
 #include <opencv2/videoio.hpp>
 
-using namespace cv;
 
 class Camera{
 public:
@@ -17,15 +16,15 @@ public:
 	Camera(int camera_number);
 	Camera(bool fake);
 	~Camera();
-	Mat getImage();
+	cv::Mat getImage();
 	bool isOpened();
 	void reopen(int camera_number);
 	void release();
 	bool grabing();
-	bool retrieving(Mat& img, int channels);
+	bool retrieving(cv::Mat& img, int channels);
 
 protected:
-	VideoCapture cameraHandler;
+	cv::VideoCapture cameraHandler;
 	static int CAMERA_COUNTER;
 };
 

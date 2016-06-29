@@ -3,11 +3,10 @@
 
 #include <General.hpp>
 
-using namespace cv;
 
 class Preprocess{
 public:
-	static void smooth(Mat src, Mat &dst);
+	static void smooth(cv::Mat src, cv::Mat &dst);
 
 };
 

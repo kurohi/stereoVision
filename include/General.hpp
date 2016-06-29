@@ -13,8 +13,6 @@
 #include <cmath>
 
 
-using namespace std;
-
 #define DEFAULT_WIDTH 1600
 #define DEFAULT_HEIGHT 1200
 

@@ -10,20 +10,19 @@
 #include <opencv2/core/utility.hpp>
 #include <opencv2/highgui.hpp>
 
-using namespace cv;
 
 class Screen {
 private:
-	string screenName;
-	Mat currentFrame;
+	std::string screenName;
+	cv::Mat currentFrame;
 
 public:
 	Screen();
-	Screen(string name);
+	Screen(std::string name);
 	~Screen();
-	void putImage(Mat img);
-	string getScreenName();
-	void drawRectangle(Mat& img, Rect2d rect);
+	void putImage(cv::Mat img);
+	std::string getScreenName();
+	void drawRectangle(cv::Mat& img, cv::Rect2d rect);
 };
 
 

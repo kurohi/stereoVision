@@ -4,7 +4,7 @@ StereoDepth::StereoDepth(){
 	is_img_ok = is_disp_ok = false;
 	initializeDefaultStereo();
 }
-StereoDepth::StereoDepth(Mat src1, Mat src2){
+StereoDepth::StereoDepth(cv::Mat src1, cv::Mat src2){
 	left = src1;
 	right = src2;
 	is_img_ok = true;
@@ -30,9 +30,9 @@ void StereoDepth::initializeDefaultStereo(){
 	mode=false;
 	sigma=1.0;
 	lambda=8000.0;
-	stereo_left = StereoSGBM::create(minDisparity, numDisparities, blockSize, P1, P2, disp12MaxDiff, preFilterCap, uniquenessRatio, speckleWindowSize, speckleRange, mode);
+	stereo_left = cv::StereoSGBM::create(minDisparity, numDisparities, blockSize, P1, P2, disp12MaxDiff, preFilterCap, uniquenessRatio, speckleWindowSize, speckleRange, mode);
 	
-	stereo_right = StereoSGBM::create(-numDisparities+1, numDisparities, blockSize, P1, P2, disp12MaxDiff, preFilterCap, uniquenessRatio, speckleWindowSize, speckleRange, mode);
+	stereo_right = cv::StereoSGBM::create(-numDisparities+1, numDisparities, blockSize, P1, P2, disp12MaxDiff, preFilterCap, uniquenessRatio, speckleWindowSize, speckleRange, mode);
 }
 
 bool StereoDepth::isImageOk(){
@@ -49,27 +49,27 @@ bool StereoDepth::isDisparityOk(){
 	return is_disp_ok;
 }
 
-void StereoDepth::setImage1(Mat src){
-	cvtColor(src, left, CV_BGR2GRAY);
+void StereoDepth::setImage1(cv::Mat src){
+	cv::cvtColor(src, left, CV_BGR2GRAY);
 	Preprocess::smooth(left, left); 
 	isImageOk();
 }
 
-void StereoDepth::setImage2(Mat src){
-	cvtColor(src, right, CV_BGR2GRAY);
+void StereoDepth::setImage2(cv::Mat src){
+	cv::cvtColor(src, right, CV_BGR2GRAY);
 	Preprocess::smooth(right, right); 
 	isImageOk();
 }
 
-Mat StereoDepth::getImage1(){
+cv::Mat StereoDepth::getImage1(){
 	return left;
 }
 
-Mat StereoDepth::getImage2(){
+cv::Mat StereoDepth::getImage2(){
 	return right;
 }
 
-Mat StereoDepth::getDisparity(){
+cv::Mat StereoDepth::getDisparity(){
 	return disparity8;
 }
 
@@ -82,13 +82,13 @@ bool StereoDepth::doDepth(){
 		stereo_left->compute(left_for_matcher, right_for_matcher,left_disp);
 		stereo_right->compute(right_for_matcher,left_for_matcher, right_disp);
 		
-		Ptr<DisparityWLSFilter> wls_filter = createDisparityWLSFilter(stereo_left);
+		cv::Ptr<DisparityWLSFilter> wls_filter = createDisparityWLSFilter(stereo_left);
 		wls_filter->setLambda(lambda);
 		wls_filter->setSigmaColor(sigma);
 		wls_filter->filter(left_disp,left,disparity16,right_disp,ROI);
 		//stereo_left->compute(left,right,disparity16);
 		double minVal; double maxVal;
-		minMaxLoc( disparity16, &minVal, &maxVal );
+		cv::minMaxLoc( disparity16, &minVal, &maxVal );
 		disparity16.convertTo( disparity8, CV_8UC1, 255/(maxVal - minVal));
 		is_disp_ok = true;
 		return true;
@@ -202,8 +202,8 @@ int StereoDepth::getMode(){
 	return mode;
 }
 void StereoDepth::setMode(int mod){
-	if(mod == StereoSGBM::MODE_HH){
-		mode = StereoSGBM::MODE_HH;
+	if(mod == cv::StereoSGBM::MODE_HH){
+		mode = cv::StereoSGBM::MODE_HH;
 	}else{
 		mode = false;
 	}
@@ -211,7 +211,7 @@ void StereoDepth::setMode(int mod){
 	stereo_right->setMode(mode);
 }
 
-Rect StereoDepth::computeROI(Size2i src_sz, Ptr<StereoMatcher> matcher_instance)
+cv::Rect StereoDepth::computeROI(cv::Size2i src_sz, cv::Ptr<cv::StereoMatcher> matcher_instance)
 {
 	int min_disparity = matcher_instance->getMinDisparity();
 	int num_disparities = matcher_instance->getNumDisparities();
@@ -225,6 +225,6 @@ Rect StereoDepth::computeROI(Size2i src_sz, Ptr<StereoMatcher> matcher_instance)
 	int ymin = bs2;
 	int ymax = src_sz.height - bs2;
 
-	Rect r(xmin, ymin, xmax - xmin, ymax - ymin);
+	cv::Rect r(xmin, ymin, xmax - xmin, ymax - ymin);
 	return r;
 }

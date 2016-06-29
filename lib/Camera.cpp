@@ -36,8 +36,8 @@ Camera::~Camera(){
 	cameraHandler.release();
 }
 
-Mat Camera::getImage(){
-	Mat img;
+cv::Mat Camera::getImage(){
+	cv::Mat img;
 	if(cameraHandler.isOpened()){
 		cameraHandler >> img;
 	}
@@ -62,7 +62,7 @@ bool Camera::grabing(){
 	return cameraHandler.grab();
 }
 
-bool Camera::retrieving(Mat& img, int channels=0){
+bool Camera::retrieving(cv::Mat& img, int channels=0){
 	return cameraHandler.retrieve(img,channels);
 }
 
