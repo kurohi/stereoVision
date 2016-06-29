@@ -3,7 +3,12 @@ cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 project( stereoVision )
 
 find_package( PCL 1.2 REQUIRED )
-find_package(VTK 6.1 REQUIRED NO_MODULE)
+#find_package(VTK 6.1 REQUIRED NO_MODULE)
+find_package( Boost COMPONENTS system thread REQUIRED )
+
+include_directories (${Boost_INCLUDE_DIRS})
+link_directories(${Boost_LIBRARY_DIRS})
+add_definitions(${Boost_DEFINITIONS})
 
 include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
@@ -35,6 +40,6 @@ target_link_libraries( stereocalibrate ${OpenCV_LIBS} stereoVisionLibs )
 target_link_libraries( StereoParamSet ${OpenCV_LIBS} stereoVisionLibs )
 #test program linkers
 target_link_libraries( testCamera ${OpenCV_LIBS} stereoVisionLibs )
-target_link_libraries( testPclView ${OpenCV_LIBS} ${PCL_LIBRARIES} stereoVisionLibs )
-target_link_libraries( testPclGetPlanes ${OpenCV_LIBS} ${PCL_LIBRARIES} stereoVisionLibs )
+target_link_libraries( testPclView ${OpenCV_LIBS} -lboost_thread ${Boost_LIBRARIES} ${PCL_LIBRARIES} stereoVisionLibs )
+target_link_libraries( testPclGetPlanes ${OpenCV_LIBS} ${Boost_LIBRARIES} ${PCL_LIBRARIES} stereoVisionLibs )
 target_link_libraries( testLoadPlane ${OpenCV_LIBS} ${PCL_LIBRARIES} stereoVisionLibs )
