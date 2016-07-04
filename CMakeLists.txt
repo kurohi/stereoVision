@@ -44,7 +44,7 @@ target_link_libraries( stereocalibrate ${OpenCV_LIBS} stereoVisionLibs )
 target_link_libraries( StereoParamSet ${OpenCV_LIBS} stereoVisionLibs )
 #test program linkers
 target_link_libraries( testCamera ${OpenCV_LIBS} stereoVisionLibs )
-target_link_libraries( testPclView ${OpenCV_LIBS} -lboost_thread ${Boost_LIBRARIES} ${PCL_LIBRARIES} stereoVisionLibs )
+target_link_libraries( testPclView ${OpenCV_LIBS} ${PCL_LIBRARIES} stereoVisionLibs )
 target_link_libraries( testPclGetPlanes ${OpenCV_LIBS} ${Boost_LIBRARIES} ${PCL_LIBRARIES} stereoVisionLibs )
 target_link_libraries( testLoadPlane ${OpenCV_LIBS} ${PCL_LIBRARIES} stereoVisionLibs )
 target_link_libraries( testSetTruckPlanes ${OpenCV_LIBS} ${PCL_LIBRARIES} stereoVisionLibs )
