@@ -16,8 +16,8 @@ StereoDepth::~StereoDepth(){
 }
 
 void StereoDepth::initializeDefaultStereo(){
-	minDisparity=-64;
-	numDisparities=192;
+	minDisparity=-33;
+	numDisparities=112;
 	blockSize=5;
 	P1=600;
 	P2=2400;

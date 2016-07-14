@@ -43,7 +43,6 @@ int main(int argc, char **argv){
 		fs2[std::string("back_plane_").append(1u,c)] >> val;
 		back_plane.push_back(val);
 	}
-	
 	try{
 		computePlanes.setCoeficientsForIndex(left_plane, pclGetPlanes::LEFT_CUT);
 		computePlanes.setCoeficientsForIndex(right_plane, pclGetPlanes::RIGHT_CUT);
@@ -78,4 +77,5 @@ int main(int argc, char **argv){
 	std::cout<<"Total occupied volume(voxels): "<<total_occupied_volume <<std::endl;
 	std::cout<<"Total occupied volume(cm^3): "<<(430*total_occupied_volume) <<std::endl;
 	std::cout<<"Percentage: "<<(total_occupied_volume/(640*480) *100)<<"%"<<std::endl;
+	return 0;
 }

@@ -34,7 +34,7 @@ int main(int argc, char **argv){
 	//creating the computePlanes object with 5 planes to calculate
 	pclGetPlanes computePlanes(5);
 	pclView viewtest;
-	pcl::PointCloud<pcl::PointXYZ>::Ptr points;
+	pcl::PointCloud<pcl::PointXYZ>::Ptr points(new pcl::PointCloud<pcl::PointXYZ>);
 	pcl::PointCloud<pcl::PointXYZ>::Ptr points_full;
 	cv::Mat Q;
 	cv::FileStorage fs(argv[1], cv::FileStorage::READ);
@@ -70,6 +70,7 @@ int main(int argc, char **argv){
 		computePlanes.setCoeficientsForIndex(back_plane, pclGetPlanes::BACK_CUT);
 	}catch(std::runtime_error &exp){
 		std::cerr<<exp.what()<<std::endl;
+		return 0;
 	}
 
 	points_full = viewtest.convertToPointCloudNoColor(disparity, Q);
