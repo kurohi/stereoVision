@@ -84,6 +84,9 @@ int main(int argc, char **argv){
 		}
 		points->points.push_back(points_full->points[i]);
 	}
+	if(points->points.size() == 0){
+		std::cout<<"Percentage: 0.0%"<<std::endl;
+	}
 	std::cout<<"Valid points: "<<points->points.size()<<std::endl;
 	double total_occupied_volume = 0.0;
 	pcl::PointXYZ origin;
