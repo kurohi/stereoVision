@@ -26,6 +26,8 @@ int main(int argc, char **argv){
 	points_full = viewtest.convertToPointCloudNoColor(disparity_img, Q);
 	for(int i=4; i>=0; i--){
 		computePlanes.cutImageForPlanes(disparity_img, cut_image, i);
+		cv::imshow("cut image", cut_image);
+		cv::waitKey(0);
 		points = viewtest.convertToPointCloudNoColor(cut_image, Q);
 		try{
 			if(!computePlanes.computePaneByIndex(points, i)){
@@ -37,7 +39,7 @@ int main(int argc, char **argv){
 			for(int j=0; j<coefs.size(); j++){
 				std::cout<<coefs[j]<<" ";
 			}std::cout<<std::endl;
-		}catch(exception &e){
+		}catch(cv::Exception &e){
 			std::cout << "Deu ruim tio" << std::endl;
 		}
 	}
@@ -49,9 +51,14 @@ int main(int argc, char **argv){
 		point.x = points_full->points[i].x;
 		point.y = points_full->points[i].y;
 		point.z = points_full->points[i].z;
-		uint32_t rgb = 0xFF0000;
-		if(!computePlanes.isOnPlane(points_full->points[i],4)){
-			rgb = 0x555555;
+		uint32_t rgb = 0x555555;
+		if((computePlanes.isOnPlane(points_full->points[i],4))||
+		   (computePlanes.isOnPlane(points_full->points[i],3))||
+		   (computePlanes.isOnPlane(points_full->points[i],2))||
+		   (computePlanes.isOnPlane(points_full->points[i],1))||
+		   (computePlanes.isOnPlane(points_full->points[i],0)))
+		{
+			rgb = 0xFF0000;
 		}
 		point.rgb = *reinterpret_cast<float*>(&rgb);
 		plane_points_color->points.push_back(point);

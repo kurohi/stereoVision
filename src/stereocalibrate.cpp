@@ -2,8 +2,9 @@
 #include <opencv2/calib3d/calib3d.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
-//#include "opencv2/contrib/contrib.hpp"
 #include <stdio.h>
+#include <string>
+#include <iomanip>
 #include <TwinCamera.hpp>
 
 using namespace cv;
@@ -15,55 +16,75 @@ int main(int argc, char* argv[])
     int board_w = atoi(argv[2]);
     int board_h = atoi(argv[3]);
 
-    Size board_sz = Size(board_w, board_h);
+    cv::Size board_sz = Size(board_w, board_h);
     int board_n = board_w*board_h;
 
-    vector<vector<Point3f> > object_points;
-    vector<vector<Point2f> > imagePoints1, imagePoints2;
-    vector<Point2f> corners1, corners2;
+    vector<vector<cv::Point3f> > object_points;
+    vector<vector<cv::Point2f> > imagePoints1, imagePoints2;
+    vector<cv::Point2f> corners1, corners2;
 
-    vector<Point3f> obj;
+    vector<cv::Point3f> obj;
     for (int j=0; j<board_n; j++)
     {
-        obj.push_back(Point3f(j/board_w, j%board_w, 0.0f));
+        obj.push_back(cv::Point3f(j/board_w, j%board_w, 0.0f));
     }
 
-    Mat img1, img2, gray1, gray2;
-    TwinCamera twin(0,1);
+    cv::Mat left_img, right_img, left_gray, right_gray;
+    std::string folder_root;
+    TwinCamera *twin;
+    if((argc >= 6)&&(std::string(argv[4]) == "-f")){
+	std::cout<<"Using images for calibration"<<std::endl;
+	folder_root = std::string(argv[5]);
+    }else{
+        twin = new TwinCamera(0,1);
+    }
 
-    int success = 0, k = 0;
+    int success = 0, k = 0, img_index =0;
     bool found1 = false, found2 = false;
 
     while (success < numBoards)
     {
-        twin.getDoubleImages(img1,img2);
-        //resize(img1, img1, Size(320, 280));
-        //resize(img2, img2, Size(320, 280));
-        cvtColor(img1, gray1, CV_BGR2GRAY);
-        cvtColor(img2, gray2, CV_BGR2GRAY);
+    	if((argc >= 6)&&(std::string(argv[4]) == "-f")){
+	    std::ostringstream left_addrs, right_addrs;
+	    left_addrs << folder_root << "left_" << std::setw(2) << std::setfill('0') << img_index << ".jpg";
+	    std::cout<<left_addrs.str()<<std::endl;
+            left_img = cv::imread(left_addrs.str());
+	    right_addrs << folder_root << "right_" << std::setw(2) << std::setfill('0') << img_index << ".jpg";
+	    std::cout<<right_addrs.str()<<std::endl;
+	    right_img = cv::imread(right_addrs.str());
+	    if((right_img.empty())||(left_img.empty())){
+                break;
+	    }
+	}else{
+            twin->getDoubleImages(left_img,right_img);
+	}
+        cv::cvtColor(left_img, left_gray, CV_BGR2GRAY);
+        cv::cvtColor(right_img, right_gray, CV_BGR2GRAY);
 
-        found1 = findChessboardCorners(img1, board_sz, corners1, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FILTER_QUADS);
-        found2 = findChessboardCorners(img2, board_sz, corners2, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FILTER_QUADS);
+        found1 = cv::findChessboardCorners(left_img, board_sz, corners1, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FILTER_QUADS);
+        found2 = cv::findChessboardCorners(right_img, board_sz, corners2, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FILTER_QUADS);
 
         if (found1)
         {
-            cornerSubPix(gray1, corners1, Size(11, 11), Size(-1, -1), TermCriteria(CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 30, 0.1));
-            drawChessboardCorners(gray1, board_sz, corners1, found1);
+            cv::cornerSubPix(left_gray, corners1, cv::Size(11, 11), cv::Size(-1, -1), cv::TermCriteria(CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 30, 0.1));
+            cv::drawChessboardCorners(left_img, board_sz, corners1, found1);
         }
 
         if (found2)
         {
-            cornerSubPix(gray2, corners2, Size(11, 11), Size(-1, -1), TermCriteria(CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 30, 0.1));
-            drawChessboardCorners(gray2, board_sz, corners2, found2);
+            cv::cornerSubPix(right_gray, corners2, cv::Size(11, 11), cv::Size(-1, -1), cv::TermCriteria(CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 30, 0.1));
+            cv::drawChessboardCorners(right_img, board_sz, corners2, found2);
         }
         
-        imshow("image1", gray1);
-        imshow("image2", gray2);
+        cv::imshow("left", left_img);
+        cv::imshow("right", right_img);
 
-        k = waitKey(10);
-        if (found1 && found2)
+        k = cv::waitKey(10);
+        if ((argc >= 6)&&(std::string(argv[4]) == "-f"))
         {
-            k = waitKey(0);
+            //k = cv::waitKey(0);
+	    k = ' ';
+	    img_index++;
         }
         if (k == 27)
         {
@@ -84,22 +105,31 @@ int main(int argc, char* argv[])
             }
         }
     }
+    if((argc < 6)||(std::string(argv[4]) != "-f")){
+        delete(twin);
+    }else{
+        std::ostringstream left_addrs, right_addrs;
+        left_addrs << folder_root << "left_00.jpg";
+        left_img = cv::imread(left_addrs.str());
+        right_addrs << folder_root << "right_00.jpg";
+        right_img = cv::imread(right_addrs.str());
+    }
 
-    destroyAllWindows();
+    cv::destroyAllWindows();
     printf("Starting Calibration\n");
-    Mat CM1 = Mat(3, 3, CV_64FC1);
-    Mat CM2 = Mat(3, 3, CV_64FC1);
-    Mat D1, D2;
-    Mat R, T, E, F;
+    cv::Mat CM1 = cv::Mat(3, 3, CV_64FC1);
+    cv::Mat CM2 = cv::Mat(3, 3, CV_64FC1);
+    cv::Mat D1, D2;
+    cv::Mat R, T, E, F;
 
-    float result = stereoCalibrate(object_points, imagePoints1, imagePoints2, 
-                    CM1, D1, CM2, D2, img1.size(), R, T, E, F, 
+    float result = cv::stereoCalibrate(object_points, imagePoints1, imagePoints2, 
+                    CM1, D1, CM2, D2, left_img.size(), R, T, E, F, 
                     CV_CALIB_SAME_FOCAL_LENGTH | CV_CALIB_ZERO_TANGENT_DIST,
-                    cvTermCriteria(CV_TERMCRIT_ITER+CV_TERMCRIT_EPS, 100, 1e-5));
+                    cv::TermCriteria(CV_TERMCRIT_ITER+CV_TERMCRIT_EPS, 100, 1e-5));
     
     std::cout<<"Result from calibration: "<<result<<std::endl;
 
-    FileStorage fs1("mystereocalib.yml", FileStorage::WRITE);
+    cv::FileStorage fs1("mystereocalib.yml", cv::FileStorage::WRITE);
     fs1 << "CM1" << CM1;
     fs1 << "CM2" << CM2;
     fs1 << "D1" << D1;
@@ -113,8 +143,8 @@ int main(int argc, char* argv[])
 
     printf("Starting Rectification\n");
 
-    Mat R1, R2, P1, P2, Q;
-    stereoRectify(CM1, D1, CM2, D2, img1.size(), R, T, R1, R2, P1, P2, Q);
+    cv::Mat R1, R2, P1, P2, Q;
+    cv::stereoRectify(CM1, D1, CM2, D2, left_img.size(), R, T, R1, R2, P1, P2, Q);
     fs1 << "R1" << R1;
     fs1 << "R2" << R2;
     fs1 << "P1" << P1;
@@ -125,25 +155,42 @@ int main(int argc, char* argv[])
 
     printf("Applying Undistort\n");
 
-    Mat map1x, map1y, map2x, map2y;
-    Mat imgU1, imgU2;
+    cv::Mat map1x, map1y, map2x, map2y;
+    cv::Mat imgU1, imgU2;
 
-    initUndistortRectifyMap(CM1, D1, R1, P1, img1.size(), CV_32FC1, map1x, map1y);
-    initUndistortRectifyMap(CM2, D2, R2, P2, img2.size(), CV_32FC1, map2x, map2y);
+    cv::initUndistortRectifyMap(CM1, D1, R1, P1, left_img.size(), CV_32FC1, map1x, map1y);
+    cv::initUndistortRectifyMap(CM2, D2, R2, P2, right_img.size(), CV_32FC1, map2x, map2y);
 
     printf("Undistort complete\n");
 
+    img_index = 0;
     while(1)
     {    
-        twin.getDoubleImages(img1,img2);
+       	if((argc >= 6)&&(std::string(argv[4]) == "-f")){
+	    std::ostringstream left_addrs, right_addrs;
+	    left_addrs << folder_root << "left_" << std::setw(2) << std::setfill('0') << img_index << ".jpg";
+            left_img = cv::imread(left_addrs.str());
+	    right_addrs << folder_root << "right_" << std::setw(2) << std::setfill('0') << img_index << ".jpg";
+	    right_img = cv::imread(right_addrs.str());
+            if((right_img.empty())||(left_img.empty())){
+	        break;
+	    }
 
-        remap(img1, imgU1, map1x, map1y, INTER_LINEAR, BORDER_CONSTANT, Scalar());
-        remap(img2, imgU2, map2x, map2y, INTER_LINEAR, BORDER_CONSTANT, Scalar());
+	}else{
+            twin->getDoubleImages(left_img,right_img);
+	}
 
-        imshow("image1", imgU1);
-        imshow("image2", imgU2);
+        cv::remap(left_img, imgU1, map1x, map1y, INTER_LINEAR, BORDER_CONSTANT, cv::Scalar());
+        cv::remap(right_img, imgU2, map2x, map2y, INTER_LINEAR, BORDER_CONSTANT, cv::Scalar());
 
-        k = waitKey(5);
+        cv::imshow("left", imgU1);
+        cv::imshow("right", imgU2);
+
+        k = cv::waitKey(5);
+	if((argc >= 6)&&(std::string(argv[4]) == "-f")){
+	    k = cv::waitKey(0);
+	    img_index++;
+	}
 
         if(k==27)
         {

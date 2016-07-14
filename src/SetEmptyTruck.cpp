@@ -16,6 +16,7 @@ int main(int argc, char **argv){
 	stereoDepth.setImage2(img2);
 	if(stereoDepth.doDepth()){
 		disparity = stereoDepth.getDisparity();
+		cv::equalizeHist(disparity,disparity);
 		imwrite("img1.jpg",img1);
 		imwrite("img2.jpg",img2);
 		

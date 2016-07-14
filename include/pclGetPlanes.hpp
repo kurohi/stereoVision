@@ -39,7 +39,7 @@ public:
 	static const int TOP_CUT = 2;
 	static const int BOTTOM_CUT = 3;
 	static const int BACK_CUT = 4;
-	static const double THRESHOLD = 0.5;
+	static const double THRESHOLD = 10.0;
 private:
 	int nIndexes;
 	std::vector<pcl::ModelCoefficients::Ptr> planes;
