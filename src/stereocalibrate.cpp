@@ -12,6 +12,11 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
+    if(argc<4){
+        std::cout<<"To run this program you need to specify the number of pictures, with and height of the chessboard"<<std::endl;
+	std::cout<<"Example: ./stereocalibrate 20 10 7 <-f> <folder with pictures>"<<std::endl;
+	std::cout<<"if the \"-f\" is defined the program will use a folder with the pictures rather than the cameras"<<std::endl;
+    }
     int numBoards = atoi(argv[1]);
     int board_w = atoi(argv[2]);
     int board_h = atoi(argv[3]);
@@ -66,18 +71,18 @@ int main(int argc, char* argv[])
 
         if (found1)
         {
-            cv::cornerSubPix(left_gray, corners1, cv::Size(11, 11), cv::Size(-1, -1), cv::TermCriteria(CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 30, 0.1));
-            cv::drawChessboardCorners(left_img, board_sz, corners1, found1);
+            cv::cornerSubPix(left_gray, corners1, cv::Size(7, 7), cv::Size(-1, -1), cv::TermCriteria(CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 100, 1e-5));
+            cv::drawChessboardCorners(left_gray, board_sz, corners1, found1);
         }
 
         if (found2)
         {
-            cv::cornerSubPix(right_gray, corners2, cv::Size(11, 11), cv::Size(-1, -1), cv::TermCriteria(CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 30, 0.1));
-            cv::drawChessboardCorners(right_img, board_sz, corners2, found2);
+            cv::cornerSubPix(right_gray, corners2, cv::Size(7, 7), cv::Size(-1, -1), cv::TermCriteria(CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 100, 1e-5));
+            cv::drawChessboardCorners(right_gray, board_sz, corners2, found2);
         }
         
-        cv::imshow("left", left_img);
-        cv::imshow("right", right_img);
+        cv::imshow("left", left_gray);
+        cv::imshow("right", right_gray);
 
         k = cv::waitKey(10);
         if ((argc >= 6)&&(std::string(argv[4]) == "-f"))
@@ -96,6 +101,12 @@ int main(int argc, char* argv[])
             imagePoints2.push_back(corners2);
             object_points.push_back(obj);
             printf ("Corners stored\n");
+	    std::ostringstream left_addrs, right_addrs;
+	    left_addrs << "left_" << std::setw(2) << std::setfill('0') << success << ".jpg";
+	    right_addrs << "right_" << std::setw(2) << std::setfill('0') << success << ".jpg";
+
+	    cv::imwrite(left_addrs.str(), left_img);
+	    cv::imwrite(right_addrs.str(), right_img);
             success++;
 	    std::cout<<success<<std::endl;
 
