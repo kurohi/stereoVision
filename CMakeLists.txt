@@ -25,6 +25,7 @@ add_library( StereoDepth lib/Preprocess.cpp lib/StereoDepth.cpp )
 add_library( TwinCamera lib/TwinCamera.cpp )
 add_library( pclView lib/pclView.cpp )
 add_library( pclGetPlanes lib/pclGetPlanes.cpp )
+add_library( WriteToMesh lib/WriteToMesh.cpp )
 add_library( stereoVisionLibs ${LIB_SOURCES} ${LIB_HEADERS} )
 
 
