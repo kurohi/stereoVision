@@ -46,8 +46,8 @@ add_executable( testGetTruckPercentagePlanes test/testGetTruckPercentagePlanes.c
 
 target_link_libraries( setTruckPlanes ${OpenCV_LIBS} ${PCL_LIBRARIES} TwinCamera Camera Preprocess StereoDepth pclView pclGetPlanes )
 target_link_libraries( getTruckPercentagePlanes ${OpenCV_LIBS} ${PCL_LIBRARIES} TwinCamera Camera Preprocess StereoDepth pclView pclGetPlanes )
-target_link_libraries( setEmptyTruck ${OpenCV_LIBS} ${PCL_LIBRARIES} TwinCamera Camera Preprocess StereoDepth )
-target_link_libraries( getPercentage ${OpenCV_LIBS} ${PCL_LIBRARIES} TwinCamera Camera Preprocess StereoDepth )
+target_link_libraries( setEmptyTruck ${OpenCV_LIBS} ${PCL_LIBRARIES} TwinCamera Camera Preprocess StereoDepth WriteToMesh )
+target_link_libraries( getPercentage ${OpenCV_LIBS} ${PCL_LIBRARIES} Screen TwinCamera Camera Preprocess StereoDepth WriteToMesh )
 target_link_libraries( stereocalibrate ${OpenCV_LIBS} TwinCamera Camera )
 target_link_libraries( StereoParamSet ${OpenCV_LIBS} TwinCamera Camera Preprocess StereoDepth )
 #test program linkers

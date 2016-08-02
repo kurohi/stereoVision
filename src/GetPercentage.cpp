@@ -1,6 +1,7 @@
 #include <TwinCamera.hpp>
 #include <StereoDepth.hpp>
 #include <Screen.hpp>
+#include <WriteToMesh.hpp>
 
 int main(int argc, char **argv){
 	if(argc<3){
@@ -8,17 +9,20 @@ int main(int argc, char **argv){
 		return 1;
 	}
 	Screen screen("Disparity");
-	Mat img1,img2, disparity, emptyTruck;
-	emptyTruck = imread(argv[2], IMREAD_GRAYSCALE);
+	cv::Mat img1,img2, disparity, emptyTruck;
+	cv::Mat Q_matrix;
+	emptyTruck = cv::imread(argv[2], cv::IMREAD_GRAYSCALE);
 	TwinCamera twin(0,1);
 	twin.getDoubleImages(img1,img2);
 	twin.loadCameraParameters(argv[1], img1, img2);
+	Q_matrix = twin.getQMatrix();
 	StereoDepth stereoDepth;
 	twin.rectifyForStereo(img1, img2);
 	stereoDepth.setImage1(img1);
 	stereoDepth.setImage2(img2);
 	if(stereoDepth.doDepth()){
 		disparity = stereoDepth.getDisparity();
+		WriteToMesh::writeWithColorToMeshRaw(disparity, img1, Q_matrix, "getPercentageMesh.ply");
 		screen.putImage(disparity);
 		int i,j;
 		double volume = 0;
@@ -36,5 +40,5 @@ int main(int argc, char **argv){
 	}else{
 		std::cout<<"Error when computing the stereo image."<<std::endl;
 	}
-	waitKey(0);
+	cv::waitKey(0);
 }

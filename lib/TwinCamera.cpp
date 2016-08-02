@@ -53,7 +53,7 @@ bool TwinCamera::loadCameraParameters(char *filename, cv::Mat img1, cv::Mat img2
 	cv::Mat CM1, CM2;
 	cv::Mat D1, D2;
 	cv::Mat R, T, E, F;
-	cv::Mat R1, R2, P1, P2, Q;
+	cv::Mat R1, R2, P1, P2;
 	
 	try{
 		cv::FileStorage fs(filename, cv::FileStorage::READ);
@@ -97,4 +97,8 @@ void TwinCamera::rectifyForStereo(cv::Mat &img1, cv::Mat &img2){
 	
 	img1 = imgU1;
 	img2 = imgU2;
+}
+
+cv::Mat TwinCamera::getQMatrix(){
+	return Q;
 }
