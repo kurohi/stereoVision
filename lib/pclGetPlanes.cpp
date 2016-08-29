@@ -108,19 +108,19 @@ void pclGetPlanes::cutImageForPlanes(cv::Mat src, cv::Mat &dst, int index){
 				}
 			break;
 		case pclGetPlanes::TOP_CUT:
-			for(int i=0; i<src.rows*CUTTING_PROPORTION; i++)
+			for(int i=0; i<src.rows*CUTTING_PROPORTION/2; i++)
 				for(int j=0; j<src.cols; j++){
 					dst.at<uchar>(i,j) = src.at<uchar>(i,j);
 				}
 			break;
 		case pclGetPlanes::BOTTOM_CUT:
-			for(int i=src.rows - src.rows*CUTTING_PROPORTION; i<src.rows; i++)
+			for(int i=src.rows - src.rows*CUTTING_PROPORTION*2; i<src.rows; i++)
 				for(int j=0; j<src.cols; j++){
 					dst.at<uchar>(i,j) = src.at<uchar>(i,j);
 				}
 			break;
 		case pclGetPlanes::BACK_CUT:
-			for(int i=src.rows*CUTTING_PROPORTION; i<src.rows - src.rows*CUTTING_PROPORTION; i++)
+			for(int i=src.rows*CUTTING_PROPORTION/2; i<src.rows - src.rows*CUTTING_PROPORTION*2; i++)
 				for(int j=src.cols*CUTTING_PROPORTION; j<src.cols - src.cols*CUTTING_PROPORTION; j++){
 					dst.at<uchar>(i,j) = src.at<uchar>(i,j);
 				}

@@ -8,12 +8,23 @@ int main(int argc, char **argv){
 		std::cout<<"Need to specify the calibration file and emptyTruck image"<<std::endl;
 		return 1;
 	}
-	Screen screen("Disparity");
+	bool using_files=false;
+	if(argc>=5){
+		if(std::string(argv[3]) == "-f"){
+			using_files = true;
+		}
+	}
+	//Screen screen("Disparity");
 	cv::Mat img1,img2, disparity, emptyTruck;
 	cv::Mat Q_matrix;
 	emptyTruck = cv::imread(argv[2], cv::IMREAD_GRAYSCALE);
 	TwinCamera twin(0,1);
-	twin.getDoubleImages(img1,img2);
+	if(!using_files){
+		twin.getDoubleImages(img1,img2);
+	}else{
+		img1 = cv::imread(argv[4]);
+		img2 = cv::imread(argv[5]);
+	}
 	twin.loadCameraParameters(argv[1], img1, img2);
 	Q_matrix = twin.getQMatrix();
 	StereoDepth stereoDepth;
@@ -22,8 +33,8 @@ int main(int argc, char **argv){
 	stereoDepth.setImage2(img2);
 	if(stereoDepth.doDepth()){
 		disparity = stereoDepth.getDisparity();
-		WriteToMesh::writeWithColorToMeshRaw(disparity, img1, Q_matrix, "getPercentageMesh.ply");
-		screen.putImage(disparity);
+		//WriteToMesh::writeWithColorToMeshRaw(disparity, img1, Q_matrix, "getPercentageMesh.ply");
+		//screen.putImage(disparity);
 		int i,j;
 		double volume = 0;
 		double totalVolume = 0;
