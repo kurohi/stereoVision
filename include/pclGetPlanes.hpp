@@ -33,13 +33,13 @@ public:
 	bool computeInliners(pcl::PointCloud<pcl::PointXYZ>::Ptr points, int index);
 	
 	//contants for class use
-	static const float CUTTING_PROPORTION=0.3;
-	static const int LEFT_CUT = 0;
-	static const int RIGHT_CUT = 1;
-	static const int TOP_CUT = 2;
-	static const int BOTTOM_CUT = 3;
-	static const int BACK_CUT = 4;
-	static const double THRESHOLD = 10.0;
+	static constexpr float CUTTING_PROPORTION=0.3;
+	static constexpr int LEFT_CUT = 0;
+	static constexpr int RIGHT_CUT = 1;
+	static constexpr int TOP_CUT = 2;
+	static constexpr int BOTTOM_CUT = 3;
+	static constexpr int BACK_CUT = 4;
+	static constexpr double THRESHOLD = 10.0;
 private:
 	int nIndexes;
 	std::vector<pcl::ModelCoefficients::Ptr> planes;
