@@ -13,13 +13,14 @@ using namespace std;
 int main(int argc, char* argv[])
 {
     if(argc<4){
-        std::cout<<"To run this program you need to specify the number of pictures, with and height of the chessboard"<<std::endl;
-	std::cout<<"Example: ./stereocalibrate 20 10 7 <-f> <folder with pictures>"<<std::endl;
+        std::cout<<"To run this program you need to specify the number of pictures, with and height of the chessboard and the size of each square"<<std::endl;
+	std::cout<<"Example: ./stereocalibrate 20 10 7 12.5 <-f> <folder with pictures>"<<std::endl;
 	std::cout<<"if the \"-f\" is defined the program will use a folder with the pictures rather than the cameras"<<std::endl;
     }
     int numBoards = atoi(argv[1]);
     int board_w = atoi(argv[2]);
     int board_h = atoi(argv[3]);
+    double square_size = atof(argv[4]);
 
     cv::Size board_sz = Size(board_w, board_h);
     int board_n = board_w*board_h;
@@ -29,17 +30,17 @@ int main(int argc, char* argv[])
     vector<cv::Point2f> corners1, corners2;
 
     vector<cv::Point3f> obj;
-    for (int j=0; j<board_n; j++)
-    {
-        obj.push_back(cv::Point3f(j/board_w, j%board_w, 0.0f));
+    for (int j=0; j<board_h; j++)
+    	for(int k=0; k<board_w; k++){
+            obj.push_back(cv::Point3f(j*square_size, k*square_size, 0.0f));
     }
 
     cv::Mat left_img, right_img, left_gray, right_gray;
     std::string folder_root;
     TwinCamera *twin;
-    if((argc >= 6)&&(std::string(argv[4]) == "-f")){
+    if((argc >= 7)&&(std::string(argv[5]) == "-f")){
 	std::cout<<"Using images for calibration"<<std::endl;
-	folder_root = std::string(argv[5]);
+	folder_root = std::string(argv[6]);
     }else{
         twin = new TwinCamera(0,1);
     }
@@ -49,7 +50,7 @@ int main(int argc, char* argv[])
 
     while (success < numBoards)
     {
-    	if((argc >= 6)&&(std::string(argv[4]) == "-f")){
+    	if((argc >= 7)&&(std::string(argv[5]) == "-f")){
 	    std::ostringstream left_addrs, right_addrs;
 	    left_addrs << folder_root << "left_" << std::setw(2) << std::setfill('0') << img_index << ".jpg";
 	    std::cout<<left_addrs.str()<<std::endl;
@@ -84,8 +85,8 @@ int main(int argc, char* argv[])
         cv::imshow("left", left_gray);
         cv::imshow("right", right_gray);
 
-        k = cv::waitKey(10);
-        if ((argc >= 6)&&(std::string(argv[4]) == "-f"))
+        k = cv::waitKey(0);
+        if ((argc >= 7)&&(std::string(argv[5]) == "-f"))
         {
             //k = cv::waitKey(0);
 	    k = ' ';
@@ -116,7 +117,7 @@ int main(int argc, char* argv[])
             }
         }
     }
-    if((argc < 6)||(std::string(argv[4]) != "-f")){
+    if((argc < 7)||(std::string(argv[5]) != "-f")){
         delete(twin);
     }else{
         std::ostringstream left_addrs, right_addrs;
@@ -177,7 +178,7 @@ int main(int argc, char* argv[])
     img_index = 0;
     while(1)
     {    
-       	if((argc >= 6)&&(std::string(argv[4]) == "-f")){
+       	if((argc >= 7)&&(std::string(argv[5]) == "-f")){
 	    std::ostringstream left_addrs, right_addrs;
 	    left_addrs << folder_root << "left_" << std::setw(2) << std::setfill('0') << img_index << ".jpg";
             left_img = cv::imread(left_addrs.str());
@@ -198,7 +199,7 @@ int main(int argc, char* argv[])
         cv::imshow("right", imgU2);
 
         k = cv::waitKey(5);
-	if((argc >= 6)&&(std::string(argv[4]) == "-f")){
+	if((argc >= 7)&&(std::string(argv[5]) == "-f")){
 	    k = cv::waitKey(0);
 	    img_index++;
 	}

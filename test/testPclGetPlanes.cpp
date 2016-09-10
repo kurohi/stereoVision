@@ -52,7 +52,7 @@ int main(int argc, char **argv){
 		point.y = points_full->points[i].y;
 		point.z = points_full->points[i].z;
 		uint32_t rgb = 0x555555;
-		if((computePlanes.isOnPlane(points_full->points[i],4))||
+		if((computePlanes.isOnPlane(points_full->points[i],3))||
 		   (computePlanes.isOnPlane(points_full->points[i],3))||
 		   (computePlanes.isOnPlane(points_full->points[i],2))||
 		   (computePlanes.isOnPlane(points_full->points[i],1))||
