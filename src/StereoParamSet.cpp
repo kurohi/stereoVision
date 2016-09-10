@@ -235,6 +235,6 @@ int main(int argc, char **argv){
 	disp_img = stereoDepth.getDisparity();
 	equalizeHist(disp_img,disp_img);
 	disp_img = abs(disp_img - 255);
-	imwrite("result_img.jpg", disp_img);
+	imwrite("result_img.png", disp_img);
 
 }

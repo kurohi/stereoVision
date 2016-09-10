@@ -25,10 +25,10 @@ int main(int argc, char **argv){
 	if(stereoDepth.doDepth()){
 		disparity = stereoDepth.getDisparity();
 		equalizeHist(disparity,disparity);
-		imwrite("img1.jpg",img1);
-		imwrite("img2.jpg",img2);
+		imwrite("left.png",img1);
+		imwrite("right.png",img2);
 		
-		imwrite("emptyTruck.jpg", disparity);
+		imwrite("emptyTruck.png", disparity);
 	}else{
 		std::cout<<"Error when computing the stereo image."<<std::endl;
 		return 1;

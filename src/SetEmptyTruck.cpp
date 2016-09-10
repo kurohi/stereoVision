@@ -38,10 +38,10 @@ int main(int argc, char **argv){
 		cv::waitKey(0);
 		WriteToMesh::writeWithColorToMeshRaw(disparity, img1, Q_matrix, "emptyTruckMesh.ply"); 
 		//cv::equalizeHist(disparity,disparity);
-		cv::imwrite("img1.jpg",img1);
-		cv::imwrite("img2.jpg",img2);
+		cv::imwrite("left.png",img1);
+		cv::imwrite("right.png",img2);
 		
-		cv::imwrite("emptyTruck.jpg", disparity);
+		cv::imwrite("emptyTruck.png", disparity);
 	}else{
 		std::cout<<"Error when computing the stereo image."<<std::endl;
 	}
