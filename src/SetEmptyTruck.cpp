@@ -8,7 +8,7 @@ int main(int argc, char **argv){
 		return 1;
 	}
 	cv::Mat img1,img2, disparity;
-	TwinCamera twin(0,1);
+	TwinCamera twin(2,1);
 	twin.getDoubleImages(img1,img2);
 	twin.loadCameraParameters(argv[1], img1, img2);
 	cv::Mat Q_matrix = twin.getQMatrix();
@@ -18,6 +18,8 @@ int main(int argc, char **argv){
 	stereoDepth.setImage2(img2);
 	if(stereoDepth.doDepth()){
 		disparity = stereoDepth.getDisparity();
+		cv::imshow("emptytruck", disparity);
+		cv::waitKey(0);
 		WriteToMesh::writeWithColorToMeshRaw(disparity, img1, Q_matrix, "emptyTruckMesh.ply"); 
 		//cv::equalizeHist(disparity,disparity);
 		cv::imwrite("img1.jpg",img1);
