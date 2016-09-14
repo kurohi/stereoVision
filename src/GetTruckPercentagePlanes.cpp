@@ -24,9 +24,9 @@ int main(int argc, char **argv){
 	stereoDepth.setImage2(img2);
 	if(stereoDepth.doDepth()){
 		disparity = stereoDepth.getDisparity();
-		imwrite("img1.jpg",img1);
-		imwrite("img2.jpg",img2);
-		imwrite("diparity.jpg", disparity);
+		imwrite("left.png",img1);
+		imwrite("right.png",img2);
+		imwrite("diparity.png", disparity);
 	}else{
 		std::cout<<"Error when computing the stereo image."<<std::endl;
 		return 1;

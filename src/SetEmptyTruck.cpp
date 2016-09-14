@@ -14,6 +14,10 @@ int main(int argc, char **argv){
 		}
 	}
 	cv::Mat img1,img2, disparity;
+<<<<<<< HEAD
+	TwinCamera twin(2,1);
+	twin.getDoubleImages(img1,img2);
+=======
 	TwinCamera twin(0,1);
 	if(!using_files){
 		twin.getDoubleImages(img1,img2);
@@ -21,6 +25,7 @@ int main(int argc, char **argv){
 		img1 = cv::imread(argv[3]);
 		img2 = cv::imread(argv[4]);
 	}
+>>>>>>> a4536bb4e93ea97b4647b6d7e22bbe28b23daa42
 	twin.loadCameraParameters(argv[1], img1, img2);
 	cv::Mat Q_matrix = twin.getQMatrix();
 	StereoDepth stereoDepth;
@@ -29,12 +34,14 @@ int main(int argc, char **argv){
 	stereoDepth.setImage2(img2);
 	if(stereoDepth.doDepth()){
 		disparity = stereoDepth.getDisparity();
+		cv::imshow("emptytruck", disparity);
+		cv::waitKey(0);
 		WriteToMesh::writeWithColorToMeshRaw(disparity, img1, Q_matrix, "emptyTruckMesh.ply"); 
 		//cv::equalizeHist(disparity,disparity);
-		cv::imwrite("img1.jpg",img1);
-		cv::imwrite("img2.jpg",img2);
+		cv::imwrite("left.png",img1);
+		cv::imwrite("right.png",img2);
 		
-		cv::imwrite("emptyTruck.jpg", disparity);
+		cv::imwrite("emptyTruck.png", disparity);
 	}else{
 		std::cout<<"Error when computing the stereo image."<<std::endl;
 	}

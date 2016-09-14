@@ -52,10 +52,10 @@ int main(int argc, char* argv[])
     {
     	if((argc >= 7)&&(std::string(argv[5]) == "-f")){
 	    std::ostringstream left_addrs, right_addrs;
-	    left_addrs << folder_root << "left_" << std::setw(2) << std::setfill('0') << img_index << ".jpg";
+	    left_addrs << folder_root << "left_" << std::setw(2) << std::setfill('0') << img_index << ".png";
 	    std::cout<<left_addrs.str()<<std::endl;
             left_img = cv::imread(left_addrs.str());
-	    right_addrs << folder_root << "right_" << std::setw(2) << std::setfill('0') << img_index << ".jpg";
+	    right_addrs << folder_root << "right_" << std::setw(2) << std::setfill('0') << img_index << ".png";
 	    std::cout<<right_addrs.str()<<std::endl;
 	    right_img = cv::imread(right_addrs.str());
 	    if((right_img.empty())||(left_img.empty())){
@@ -102,9 +102,9 @@ int main(int argc, char* argv[])
             imagePoints2.push_back(corners2);
             object_points.push_back(obj);
             printf ("Corners stored\n");
-	        std::ostringstream left_addrs, right_addrs;
-	        left_addrs << "left_" << std::setw(2) << std::setfill('0') << success << ".jpg";
-	        right_addrs << "right_" << std::setw(2) << std::setfill('0') << success << ".jpg";
+            std::ostringstream left_addrs, right_addrs;
+            left_addrs << "left_" << std::setw(2) << std::setfill('0') << success << ".png";
+            right_addrs << "right_" << std::setw(2) << std::setfill('0') << success << ".png";
 
 	        cv::imwrite(left_addrs.str(), left_img);
 	        cv::imwrite(right_addrs.str(), right_img);
@@ -121,9 +121,9 @@ int main(int argc, char* argv[])
         delete(twin);
     }else{
         std::ostringstream left_addrs, right_addrs;
-        left_addrs << folder_root << "left_00.jpg";
+        left_addrs << folder_root << "left_000.png";
         left_img = cv::imread(left_addrs.str());
-        right_addrs << folder_root << "right_00.jpg";
+        right_addrs << folder_root << "right_000.png";
         right_img = cv::imread(right_addrs.str());
     }
 
@@ -180,9 +180,9 @@ int main(int argc, char* argv[])
     {    
        	if((argc >= 7)&&(std::string(argv[5]) == "-f")){
 	    std::ostringstream left_addrs, right_addrs;
-	    left_addrs << folder_root << "left_" << std::setw(2) << std::setfill('0') << img_index << ".jpg";
+	    left_addrs << folder_root << "left_" << std::setw(3) << std::setfill('0') << img_index << ".png";
             left_img = cv::imread(left_addrs.str());
-	    right_addrs << folder_root << "right_" << std::setw(2) << std::setfill('0') << img_index << ".jpg";
+	    right_addrs << folder_root << "right_" << std::setw(3) << std::setfill('0') << img_index << ".png";
 	    right_img = cv::imread(right_addrs.str());
             if((right_img.empty())||(left_img.empty())){
 	        break;

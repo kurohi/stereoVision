@@ -11,7 +11,7 @@ TwinCamera::~TwinCamera(){
 
 void TwinCamera::getDoubleImages(cv::Mat &img1, cv::Mat& img2){
 	cv::Mat Mean;
-	Cam1.reopen(camInd1);
+	//Cam1.reopen(camInd1);
 	if(!Cam1.isOpened()){
 		return;
 	}
@@ -28,8 +28,8 @@ void TwinCamera::getDoubleImages(cv::Mat &img1, cv::Mat& img2){
 	Mean.convertTo(Mean,CV_8U);
 	img1 = Mean;
 	*/
-	Cam1.release();
-	Cam2.reopen(camInd2);
+	//Cam1.release();
+	//Cam2.reopen(camInd2);
 	if(!Cam2.isOpened()){
 		return;
 	}
@@ -46,7 +46,7 @@ void TwinCamera::getDoubleImages(cv::Mat &img1, cv::Mat& img2){
 	Mean.convertTo(Mean,CV_8U);
 	img2 = Mean;
 	*/
-	Cam2.release();
+	//Cam2.release();
 }
 
 bool TwinCamera::loadCameraParameters(char *filename, cv::Mat img1, cv::Mat img2){
