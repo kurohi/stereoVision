@@ -328,7 +328,7 @@ int main(int argc, char* argv[])
                     Mat viewGray;
                     cvtColor(view, viewGray, COLOR_BGR2GRAY);
                     cornerSubPix( viewGray, pointBuf, Size(11,11),
-                        Size(-1,-1), TermCriteria( TermCriteria::EPS+TermCriteria::COUNT, 30, 0.1 ));
+                        Size(-1,-1), TermCriteria( TermCriteria::EPS+TermCriteria::COUNT, 30, 0.01 ));
                 }
 
                 if( mode == CAPTURING &&  // For camera only take new samples after delay time
@@ -340,7 +340,7 @@ int main(int argc, char* argv[])
                 }
 
                 // Draw the corners.
-                drawChessboardCorners( view, s.boardSize, Mat(pointBuf), found );
+                drawChessboardCorners( view, s.boardSize, Mat(pointBuf), found ); 
         }
         //! [pattern_found]
         //----------------------------- Output Text ------------------------------------------------

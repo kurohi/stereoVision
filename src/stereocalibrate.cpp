@@ -61,9 +61,9 @@ int main(int argc, char* argv[])
 	    if((right_img.empty())||(left_img.empty())){
                 break;
 	    }
-	}else{
+	    }else{
             twin->getDoubleImages(left_img,right_img);
-	}
+	    }
         cv::cvtColor(left_img, left_gray, CV_BGR2GRAY);
         cv::cvtColor(right_img, right_gray, CV_BGR2GRAY);
 
@@ -89,8 +89,8 @@ int main(int argc, char* argv[])
         if ((argc >= 7)&&(std::string(argv[5]) == "-f"))
         {
             //k = cv::waitKey(0);
-	    k = ' ';
-	    img_index++;
+	        k = ' ';
+	        img_index++;
         }
         if (k == 27)
         {
@@ -102,14 +102,14 @@ int main(int argc, char* argv[])
             imagePoints2.push_back(corners2);
             object_points.push_back(obj);
             printf ("Corners stored\n");
-	    std::ostringstream left_addrs, right_addrs;
-	    left_addrs << "left_" << std::setw(2) << std::setfill('0') << success << ".jpg";
-	    right_addrs << "right_" << std::setw(2) << std::setfill('0') << success << ".jpg";
+	        std::ostringstream left_addrs, right_addrs;
+	        left_addrs << "left_" << std::setw(2) << std::setfill('0') << success << ".jpg";
+	        right_addrs << "right_" << std::setw(2) << std::setfill('0') << success << ".jpg";
 
-	    cv::imwrite(left_addrs.str(), left_img);
-	    cv::imwrite(right_addrs.str(), right_img);
+	        cv::imwrite(left_addrs.str(), left_img);
+	        cv::imwrite(right_addrs.str(), right_img);
             success++;
-	    std::cout<<success<<std::endl;
+	        std::cout<<success<<std::endl;
 
             if (success >= numBoards)
             {
