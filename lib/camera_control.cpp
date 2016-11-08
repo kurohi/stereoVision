@@ -1,7 +1,9 @@
+#include <iostream>
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
 #include <linux/videodev2.h>
+#include <sstream>
 #include <string>
 
 #include "camera_control.hpp"
@@ -15,6 +17,20 @@ CameraControl::CameraControl(std::string camera_addrs) :    COM_TYPE_COM_STT(0xF
     this->camera_addrs = camera_addrs;
     camera_file = open(camera_addrs.c_str(), O_RDWR | O_NONBLOCK);
 
+    gain = exposure_time = -1;
+    white_balance_red = white_balance_green = white_balance_blue = -1;
+    agc = aec = awc = true;
+}
+
+CameraControl::CameraControl(int camera_id) :   COM_TYPE_COM_STT(0xFF), /* Command ID [START] */
+                                                COM_TYPE_COM_END(0xFE), /* Command ID [END] */
+                                                COM_TYPE_REG_WR(0xFA), /* Command ID [REG WRITE] */
+                                                COM_TYPE_REG_RD(0xF9)  /* Command ID [REG READ ] */
+{
+    std::stringstream stream;
+    stream<<"/dev/video" << camera_id;
+    this->camera_addrs = stream.str();
+    camera_file = open(camera_addrs.c_str(), O_RDWR | O_NONBLOCK);
     gain = exposure_time = -1;
     white_balance_red = white_balance_green = white_balance_blue = -1;
     agc = aec = awc = true;
@@ -63,7 +79,7 @@ void CameraControl::setExposureTime(int exp_time){
         aec = true;
         exposure_time = -1;
     }else{
-        aec = true;
+        aec = false;
         exposure_time = (exp_time>0xFFFF)?0xFFFF:exp_time;
     }
 }
@@ -73,15 +89,15 @@ int CameraControl::getExposureTime(){
 }
 
 void CameraControl::applySavedCommand(){
-    if((!agc)||(!aec)||(!awc)){
-        regWrite(camera_file, 0x12, 0x00);
+    if((agc)&&(aec)&&(awc)){
+        regWrite(camera_file, 0x13, 0x01);
 
     }else{
-        regWrite(camera_file, 0x13, 0x01);
+        regWrite(camera_file, 0x13, 0x00);
         regWrite(camera_file, 0x00, gain);
 
-        regWrite(camera_file, 0x08, exposure_time>>4);
-        regWrite(camera_file, 0x10, exposure_time&0xFF00);
+        regWrite(camera_file, 0x08, exposure_time>>8);
+        regWrite(camera_file, 0x10, exposure_time&0xFF);
 
         regWrite(camera_file, 0x01, white_balance_blue);
         regWrite(camera_file, 0x02, white_balance_red);
@@ -89,6 +105,29 @@ void CameraControl::applySavedCommand(){
 
     }
     
+}
+
+void CameraControl::loadFromCamera(){
+    unsigned char isauto;
+    regRead(camera_file, 0x13, &isauto);
+    if(isauto == 0){
+        agc = aec = awc = true;
+    }
+    unsigned char data;
+    regRead(camera_file, 0x00, &data);
+    gain = data;
+
+    regRead(camera_file, 0x08, &data);
+    exposure_time = data;
+    regRead(camera_file, 0x10, &data);
+    exposure_time = (exposure_time<<8)|data;
+
+    regRead(camera_file, 0x01, &data);
+    white_balance_blue = data;
+    regRead(camera_file, 0x02, &data);
+    white_balance_red = data;
+    regRead(camera_file, 0x03, &data);
+    white_balance_green = data;
 }
 
 int CameraControl::regWrite(int hcam, unsigned char addr, unsigned char data){
@@ -144,6 +183,10 @@ int CameraControl::regRead(int hcam, unsigned char addr, unsigned char *data){
     }else{
         return 0;   /* Success */
     }
+}
+
+void CameraControl::reactivateAuto(){
+    agc = aec = awc = true;
 }
 
 
