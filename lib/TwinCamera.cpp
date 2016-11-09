@@ -1,9 +1,17 @@
 #include<TwinCamera.hpp>
 
-TwinCamera::TwinCamera(int cam1, int cam2){
+TwinCamera::TwinCamera(int cam1, int cam2) : cam1_control(cam1), cam2_control(cam2) {
 	camInd1 = cam1;
 	camInd2 = cam2;
 	calibMatrixLoaded = false;
+    //just deactivating the agc, aec and awc
+    //this only works on the sikino cameras
+    cam1_control.loadFromCamera();
+    cam2_control.loadFromCamera();
+    cam1_control.setExposureTime(cam1_control.getExposureTime());
+    cam2_control.setExposureTime(cam2_control.getExposureTime());
+    cam1_control.applySavedCommand();
+    cam2_control.applySavedCommand();
 }
 
 TwinCamera::~TwinCamera(){
