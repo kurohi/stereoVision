@@ -6,7 +6,7 @@
 #include <stdexcept>
 #include <string>
 
-void captureSingleOnly(stereo_tools::StereoCapture &camera_handler, const std::string &root, cv::Size board_size, const std::string &side, bool circlegrid=false){
+void captureSingleOnly(StereoCapture &camera_handler, const std::string &root, cv::Size board_size, const std::string &side, bool circlegrid=false){
      cv::Mat average_img, captured_img, output_img;
      captured_img = camera_handler.captureLeftImage();
      average_img = cv::Mat::zeros(captured_img.size(), CV_8UC1);
@@ -66,7 +66,7 @@ void captureSingleOnly(stereo_tools::StereoCapture &camera_handler, const std::s
      }
 }
 
-void captureStereo(stereo_tools::StereoCapture &camera_handler, const std::string &root, cv::Size board_size, bool circlegrid=false){
+void captureStereo(StereoCapture &camera_handler, const std::string &root, cv::Size board_size, bool circlegrid=false){
      cv::Mat average_img, captured_left_img, captured_right_img, output_left_img, output_right_img;
      captured_left_img = camera_handler.captureLeftImage();
      average_img = cv::Mat::zeros(captured_left_img.size(), CV_8UC1);
@@ -160,7 +160,7 @@ int main(int argc, char **argv){
         }
     }
     try{
-        stereo_tools::StereoCapture camera_handler(1,2);
+        StereoCapture camera_handler(1,2);
     
         if(triple_mode){
             captureSingleOnly(camera_handler, std::string(argv[1]), board_size, "left", circle_grid);

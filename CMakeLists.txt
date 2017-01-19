@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 
 project( stereoVision )
 
-find_package( PCL 1.2 REQUIRED )
+find_package( PCL 1.2 )
 #find_package(VTK 6.1 REQUIRED NO_MODULE)
 find_package( Boost COMPONENTS system thread REQUIRED )
 
@@ -29,7 +29,6 @@ add_library( pclView lib/pclView.cpp )
 add_library( pclGetPlanes lib/pclGetPlanes.cpp )
 add_library( WriteToMesh lib/WriteToMesh.cpp )
 add_library( stereoVisionLibs ${LIB_SOURCES} ${LIB_HEADERS} )
-
 
 add_executable( setTruckPlanes src/SetTruckPlanes.cpp )
 add_executable( getTruckPercentagePlanes src/GetTruckPercentagePlanes.cpp )

@@ -15,6 +15,7 @@ CameraControl::CameraControl(std::string camera_addrs) :    COM_TYPE_COM_STT(0xF
                                                             COM_TYPE_REG_RD(0xF9)  /* Command ID [REG READ ] */
 {
     this->camera_addrs = camera_addrs;
+    this->camera_id = static_cast<int>(camera_addrs.at(camera_addrs.length()-1)) - '0';
     camera_file = open(camera_addrs.c_str(), O_RDWR | O_NONBLOCK);
 
     gain = exposure_time = -1;
@@ -30,6 +31,7 @@ CameraControl::CameraControl(int camera_id) :   COM_TYPE_COM_STT(0xFF), /* Comma
     std::stringstream stream;
     stream<<"/dev/video" << camera_id;
     this->camera_addrs = stream.str();
+    this->camera_id = camera_id;
     camera_file = open(camera_addrs.c_str(), O_RDWR | O_NONBLOCK);
     gain = exposure_time = -1;
     white_balance_red = white_balance_green = white_balance_blue = -1;
