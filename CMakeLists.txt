@@ -29,6 +29,7 @@ add_library( TwinCamera lib/twin_camera.cpp )
 add_library( pclView lib/pcl_view.cpp )
 add_library( pclGetPlanes lib/pcl_get_planes.cpp )
 add_library( WriteToMesh lib/write_to_mesh.cpp )
+add_library( ImgCutter lib/img_cutter.cpp )
 add_library( stereoVisionLibs ${LIB_SOURCES} ) 
 
 add_library( camera_control 3rdParty/capture_helper/lib/camera_control.cpp )
@@ -47,6 +48,7 @@ add_executable( testPclGetPlanes test/testPclGetPlanes.cpp )
 add_executable( testLoadPlane test/testLoadPlane.cpp )
 add_executable( testSetTruckPlanes test/testSetTruckPlanes.cpp )
 add_executable( testGetTruckPercentagePlanes test/testGetTruckPercentagePlanes.cpp )
+add_executable( testImgCutter test/testImgCutter.cpp )
 
 
 target_link_libraries( setTruckPlanes ${OpenCV_LIBS} ${PCL_LIBRARIES} TwinCamera camera_control Camera Preprocess StereoDepth pclView pclGetPlanes )
@@ -63,3 +65,4 @@ target_link_libraries( testPclGetPlanes ${OpenCV_LIBS} ${Boost_LIBRARIES} ${PCL_
 target_link_libraries( testLoadPlane ${OpenCV_LIBS} ${PCL_LIBRARIES} TwinCamera camera_control Camera Preprocess StereoDepth pclView pclGetPlanes Screen )
 target_link_libraries( testSetTruckPlanes ${OpenCV_LIBS} ${PCL_LIBRARIES} TwinCamera camera_control Camera Preprocess StereoDepth pclView pclGetPlanes Screen )
 target_link_libraries( testGetTruckPercentagePlanes ${OpenCV_LIBS} ${PCL_LIBRARIES} TwinCamera camera_control Camera Preprocess StereoDepth pclView pclGetPlanes Screen )
+target_link_libraries( testImgCutter ${OpenCV_LIBS} ImgCutter )
