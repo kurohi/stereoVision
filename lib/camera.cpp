@@ -2,7 +2,7 @@
 *   Implementation of Camera.hpp
 */
 
-#include<Camera.hpp>
+#include "camera.hpp"
 
 int Camera::CAMERA_COUNTER = 0;
 

@@ -1,5 +1,5 @@
-#include <Screen.hpp>
-#include <StereoDepth.hpp>
+#include <screen.hpp>
+#include <stereo_depth.hpp>
 
 using namespace std;
 
@@ -9,9 +9,9 @@ int main(int argc, char **argv){
 	Screen disp("Disparity");
 	StereoDepth stereoDepth;
 	char c = 0;
-	Mat img1,img2;
-	img1 = imread( argv[1] );
-	img2 = imread( argv[2] );
+    cv::Mat img1,img2;
+	img1 = cv::imread( argv[1] );
+	img2 = cv::imread( argv[2] );
 	image1.putImage(img1);
 	image2.putImage(img2);
 	stereoDepth.setImage1(img1);
@@ -27,7 +27,7 @@ int main(int argc, char **argv){
 	int uniquenessRatio=1;
 	int speckleWindowSize=150;
 	int speckleRange=2;
-	int mode=StereoSGBM::MODE_SGBM;
+	int mode=cv::StereoSGBM::MODE_SGBM;
 	
 	while(c!=27){
 		stereoDepth.doDepth();
@@ -202,7 +202,7 @@ int main(int argc, char **argv){
 				cout<<"speckleRange: "<<speckleRange<<endl;
 				break;
 			case '[':
-				mode = StereoSGBM::MODE_HH;
+				mode = cv::StereoSGBM::MODE_HH;
 				stereoDepth.setMode(mode);
 				cout<<"Mode: Mode_HH"<<endl;
 				break;
@@ -221,7 +221,7 @@ int main(int argc, char **argv){
 				cout<<"uniquenessRatio: "<<uniquenessRatio<<endl;
 				cout<<"speckleWindowSize: "<<speckleWindowSize<<endl;
 				cout<<"speckleRange: "<<speckleRange<<endl;
-				if(mode == StereoSGBM::MODE_HH){
+				if(mode == cv::StereoSGBM::MODE_HH){
 					cout<<"Mode: Mode_HH"<<endl;
 				}else{
 					cout<<"Mode: false"<<endl;
@@ -229,9 +229,9 @@ int main(int argc, char **argv){
 				break;
 		}
 		
-		c = waitKey(10);
+		c = cv::waitKey(10);
 	}
-	Mat disp_img;
+    cv::Mat disp_img;
 	disp_img = stereoDepth.getDisparity();
 	equalizeHist(disp_img,disp_img);
 	disp_img = abs(disp_img - 255);

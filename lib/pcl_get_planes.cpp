@@ -1,4 +1,4 @@
-#include <pclGetPlanes.hpp>
+#include "pcl_get_planes.hpp"
 
 pclGetPlanes::pclGetPlanes(){
 	nIndexes = 0;

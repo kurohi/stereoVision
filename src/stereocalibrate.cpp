@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <string>
 #include <iomanip>
-#include <TwinCamera.hpp>
+#include <twin_camera.hpp>
 
 using namespace cv;
 using namespace std;

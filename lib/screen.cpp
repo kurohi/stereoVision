@@ -2,7 +2,7 @@
 *   Implementation of Screen.hpp
 */
 
-#include <Screen.hpp>
+#include "screen.hpp"
 
 Screen::Screen(){
 	screenName = std::string("Window");

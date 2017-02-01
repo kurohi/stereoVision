@@ -1,7 +1,7 @@
-#include<pclView.hpp>
-#include<pclGetPlanes.hpp>
+#include <pcl_view.hpp>
+#include <pcl_get_planes.hpp>
 
-#include<Screen.hpp>
+#include <screen.hpp>
 
 int main(int argc, char **argv){
 	if(argc != 3){

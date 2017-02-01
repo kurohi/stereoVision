@@ -6,7 +6,7 @@
 #ifndef SCREEN_HPP
 #define SCREEN_HPP
 
-#include <General.hpp>
+#include "general.hpp"
 #include <opencv2/core/utility.hpp>
 #include <opencv2/highgui.hpp>
 

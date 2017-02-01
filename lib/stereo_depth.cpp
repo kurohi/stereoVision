@@ -1,4 +1,4 @@
-#include<StereoDepth.hpp>
+#include "stereo_depth.hpp"
 
 StereoDepth::StereoDepth(){
 	is_img_ok = is_disp_ok = false;

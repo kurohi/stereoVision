@@ -1,4 +1,4 @@
-#include<TwinCamera.hpp>
+#include "twin_camera.hpp"
 
 TwinCamera::TwinCamera(int cam1, int cam2) : cam1_control(cam1), cam2_control(cam2) {
 	camInd1 = cam1;

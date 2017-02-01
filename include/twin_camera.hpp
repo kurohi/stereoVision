@@ -1,8 +1,8 @@
 #ifndef TWINCAMERA_HPP
 #define TWINCAMERA_HPP
 
-#include<Camera.hpp>
-#include<camera_control.hpp>
+#include "camera.hpp"
+#include <camera_control.hpp>
 
 
 class TwinCamera{

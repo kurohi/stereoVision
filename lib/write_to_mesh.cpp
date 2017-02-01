@@ -1,4 +1,4 @@
-#include <WriteToMesh.hpp>
+#include "write_to_mesh.hpp"
 
 void WriteToMesh::writeDisparityToMeshProcessed(cv::Mat point_cloud, cv::Mat disparity, std::string filename){
     std::ofstream plyfile(filename.c_str());

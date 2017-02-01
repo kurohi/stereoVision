@@ -2,7 +2,7 @@
  *  implementation of the pclView class
  */
 
-#include <pclView.hpp>
+#include "pcl_view.hpp"
 
 pclView::pclView(){
 }

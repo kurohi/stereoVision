@@ -1,7 +1,7 @@
 #ifndef PREPROCESS_HPP
 #define PREPROCESS_HPP
 
-#include <General.hpp>
+#include "general.hpp"
 
 
 class Preprocess{

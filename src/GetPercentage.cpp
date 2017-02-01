@@ -1,7 +1,7 @@
-#include <TwinCamera.hpp>
-#include <StereoDepth.hpp>
-#include <Screen.hpp>
-#include <WriteToMesh.hpp>
+#include <twin_camera.hpp>
+#include <stereo_depth.hpp>
+#include <screen.hpp>
+#include <write_to_mesh.hpp>
 
 int main(int argc, char **argv){
 	if(argc<3){

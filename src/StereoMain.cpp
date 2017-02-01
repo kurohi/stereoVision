@@ -1,6 +1,6 @@
-#include <Screen.hpp>
-#include <TwinCamera.hpp>
-#include <StereoDepth.hpp>
+#include <screen.hpp>
+#include <twin_camera.hpp>
+#include <stereo_depth.hpp>
 
 int main(int argc, char **argv){
 	if(argc<2){

@@ -1,5 +1,5 @@
-#include <Camera.hpp>
-#include <Screen.hpp>
+#include "camera.hpp"
+#include "screen.hpp"
 
 int main(int argc, char **argv){
 	Camera cam1(0);
@@ -8,7 +8,7 @@ int main(int argc, char **argv){
 	Screen screen1("video1");
 	Screen screen2("video2");
 	char c = 0;
-	Mat img1,img2;
+    cv::Mat img1,img2;
 	bool left = true;
 	while(c!=27){
 		if(left){
@@ -22,6 +22,6 @@ int main(int argc, char **argv){
 		//	left = true;
 		//	screen2.putImage(img2);
 		}
-		c = waitKey(0);
+		c = cv::waitKey(0);
 	}
 }

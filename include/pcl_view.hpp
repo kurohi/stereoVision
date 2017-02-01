@@ -5,7 +5,7 @@
 #ifndef PCLVIEW_HPP
 #define PCLVIEW_HPP
 
-#include <General.hpp>
+#include "general.hpp"
 #include <pcl/common/common_headers.h>
 #include <pcl/io/pcd_io.h>
 #include <pcl/visualization/pcl_visualizer.h>

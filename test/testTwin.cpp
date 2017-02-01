@@ -1,5 +1,5 @@
-#include <TwinCamera.hpp>
-#include <Screen.hpp>
+#include <twin_camera.hpp>
+#include <screen.hpp>
 #include <time.h>
 #include <stdlib.h>
 #include <string>

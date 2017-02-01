@@ -1,7 +1,7 @@
-#include<TwinCamera.hpp>
-#include<StereoDepth.hpp>
-#include<pclView.hpp>
-#include<pclGetPlanes.hpp>
+#include <twin_camera.hpp>
+#include <stereo_depth.hpp>
+#include <pcl_view.hpp>
+#include <pcl_get_planes.hpp>
 
 int main(int argc, char **argv){
 	if(argc<4){

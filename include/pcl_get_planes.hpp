@@ -1,7 +1,7 @@
 #ifndef PCLGETPLANES_HPP
 #define PCLGETPLANES_HPP
 
-#include <General.hpp>
+#include "general.hpp"
 #include <pcl/ModelCoefficients.h>
 #include <pcl/io/pcd_io.h>
 #include <pcl/point_types.h>

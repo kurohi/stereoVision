@@ -6,7 +6,7 @@
 #ifndef CAMERA_HPP
 #define CAMERA_HPP
 
-#include <General.hpp>
+#include "general.hpp"
 #include <opencv2/videoio.hpp>
 
 
