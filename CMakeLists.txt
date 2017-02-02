@@ -40,6 +40,7 @@ add_executable( setEmptyTruck src/SetEmptyTruck.cpp )
 add_executable( getPercentage src/GetPercentage.cpp )
 add_executable( stereocalibrate src/stereocalibrate.cpp )
 add_executable( StereoParamSet src/StereoParamSet.cpp )
+add_executable( squareSelection src/square_selection.cpp )
 #test programs
 add_executable( testCamera test/testCamera.cpp )
 add_executable( testTwin test/testTwin.cpp )
@@ -49,6 +50,7 @@ add_executable( testLoadPlane test/testLoadPlane.cpp )
 add_executable( testSetTruckPlanes test/testSetTruckPlanes.cpp )
 add_executable( testGetTruckPercentagePlanes test/testGetTruckPercentagePlanes.cpp )
 add_executable( testImgCutter test/testImgCutter.cpp )
+add_executable( testSquareRecog test/testSquareRecog.cpp )
 
 
 target_link_libraries( setTruckPlanes ${OpenCV_LIBS} ${PCL_LIBRARIES} TwinCamera camera_control Camera Preprocess StereoDepth pclView pclGetPlanes )
@@ -57,6 +59,7 @@ target_link_libraries( setEmptyTruck ${OpenCV_LIBS} ${PCL_LIBRARIES} TwinCamera 
 target_link_libraries( getPercentage ${OpenCV_LIBS} ${PCL_LIBRARIES} Screen TwinCamera camera_control Camera Preprocess StereoDepth WriteToMesh )
 target_link_libraries( stereocalibrate ${OpenCV_LIBS} TwinCamera camera_control Camera )
 target_link_libraries( StereoParamSet ${OpenCV_LIBS} TwinCamera camera_control Camera Preprocess StereoDepth Screen )
+target_link_libraries( squareSelection ${OpenCV_LIBS} )
 #test program linkers
 target_link_libraries( testCamera ${OpenCV_LIBS} TwinCamera camera_control Camera Preprocess StereoDepth pclView pclGetPlanes Screen )
 target_link_libraries( testTwin ${OpenCV_LIBS} TwinCamera camera_control Camera Preprocess StereoDepth pclView pclGetPlanes Screen )
@@ -66,3 +69,4 @@ target_link_libraries( testLoadPlane ${OpenCV_LIBS} ${PCL_LIBRARIES} TwinCamera 
 target_link_libraries( testSetTruckPlanes ${OpenCV_LIBS} ${PCL_LIBRARIES} TwinCamera camera_control Camera Preprocess StereoDepth pclView pclGetPlanes Screen )
 target_link_libraries( testGetTruckPercentagePlanes ${OpenCV_LIBS} ${PCL_LIBRARIES} TwinCamera camera_control Camera Preprocess StereoDepth pclView pclGetPlanes Screen )
 target_link_libraries( testImgCutter ${OpenCV_LIBS} ImgCutter )
+target_link_libraries( testSquareRecog ${OpenCV_LIBS} )
