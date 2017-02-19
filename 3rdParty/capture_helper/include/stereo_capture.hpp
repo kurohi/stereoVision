@@ -26,6 +26,9 @@ class StereoCapture {
         void matchExposureToLeftCamera();
         void backToAutoExposure();
 
+	void releaseLeftCamera();
+	void releaseRightCamera();
+
         void identifyLeftRight();
         void identifyLeftRight(cv::Mat img1, cv::Mat img2, bool with_rotation=true);
         static bool identifyLeftRightIndependent(cv::Mat img1, cv::Mat img2, bool with_rotation=true);

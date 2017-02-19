@@ -61,6 +61,14 @@ cv::Mat StereoCapture::captureLeftImage(){
     return img;
 }
 
+void StereoCapture::releaseLeftCamera(){
+    camera_left.release();
+}
+
+void StereoCapture::releaseRightCamera(){
+    camera_right.release();
+}
+
 cv::Mat StereoCapture::captureRightImage(){
     if(!camera_right.isOpened()){
         camera_right.open(right_camera_id);
@@ -73,8 +81,10 @@ cv::Mat StereoCapture::captureRightImage(){
 
 void StereoCapture::captureDoubleImages(cv::Mat &left_img, cv::Mat &right_img, bool with_rotation){
     left_img = captureLeftImage();
+    camera_left.release();
     right_img = captureRightImage();
-    StereoCapture::rotate180(right_img);
+    camera_right.release();
+    //StereoCapture::rotate180(right_img);
 }
 
 bool StereoCapture::setLeftCameraId(int new_id){

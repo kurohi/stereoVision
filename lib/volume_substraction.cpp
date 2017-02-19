@@ -25,5 +25,8 @@ void VolumeSubstraction::getVolumes(const cv::Mat &volume1, const cv::Mat &volum
             total_volume1 += volume1.at<cv::Point3d>(y,x).z*16;
             total_volume2 += volume2.at<cv::Point3d>(y,x).z*16; 
         }
-    
+    std::cout<<std::endl;
+    std::cout<<"volume1: "<<total_volume1<<std::endl;
+    std::cout<<"volume2: "<<total_volume2<<std::endl;
+
 }

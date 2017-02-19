@@ -233,7 +233,7 @@ int main(int argc, char **argv){
 	}
     cv::Mat disp_img;
 	disp_img = stereoDepth.getDisparity();
-	equalizeHist(disp_img,disp_img);
+	cv::equalizeHist(disp_img,disp_img);
 	disp_img = abs(disp_img - 255);
 	imwrite("result_img.png", disp_img);
 

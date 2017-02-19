@@ -16,8 +16,10 @@ void captureSingleOnly(StereoCapture &camera_handler, const std::string &root, c
      unsigned int img_index = 0;
      while(c!='q'){
         if(side == "left"){
+	    camera_handler.releaseRightCamera();
             captured_img = camera_handler.captureLeftImage();
         }else if(side == "right"){
+	    camera_handler.releaseLeftCamera();;
             captured_img = camera_handler.captureRightImage();
         }else{
             throw(std::runtime_error("Side not recognized"));
@@ -160,12 +162,14 @@ int main(int argc, char **argv){
         }
     }
     try{
-        StereoCapture camera_handler(1,2);
+        StereoCapture camera_handler(0,1);
     
         if(triple_mode){
             captureSingleOnly(camera_handler, std::string(argv[1]), board_size, "left", circle_grid);
             captureSingleOnly(camera_handler, std::string(argv[1]), board_size, "right", circle_grid);
         }
+	camera_handler.releaseLeftCamera();
+	camera_handler.releaseRightCamera();
         captureStereo(camera_handler, std::string(argv[1]), board_size, circle_grid);
     }catch(std::runtime_error &exp){
         std::cout<<"Could not open the devices"<<std::endl;
