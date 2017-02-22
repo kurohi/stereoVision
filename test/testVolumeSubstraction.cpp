@@ -13,7 +13,7 @@ int main(int argc, char **argv){
   cv::FileStorage fs(argv[1], cv::FileStorage::READ);
 
   cv::Mat q_matrix;
-  fs["Q"] >> q_matrix;
+  fs["disparity_to_depth"] >> q_matrix;
   fs.release();
 
   cv::Mat disparity1, disparity2;
