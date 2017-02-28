@@ -22,11 +22,11 @@ void VolumeSubstraction::getVolumes(const cv::Mat &volume1, const cv::Mat &volum
     total_volume1 = total_volume2 =0.0;
     for(int y=0; y<volume1.rows; y++)
         for(int x=0; x<volume1.cols; x++){
-            if((!std::isnan(volume1.at<cv::Point3d>(y,x).z))&&(!std::isinf(volume1.at<cv::Point3d>(y,x).z))&&(std::abs(volume1.at<cv::Point3d>(y,x).z)<1.0e+50)){
-                total_volume1 += volume1.at<cv::Point3d>(y,x).z*16;
+            if((!std::isnan(volume1.at<cv::Point3f>(y,x).z))&&(!std::isinf(volume1.at<cv::Point3f>(y,x).z))&&(std::abs(volume1.at<cv::Point3f>(y,x).z)>0)){
+                total_volume1 += volume1.at<cv::Point3f>(y,x).z*16;
             }
-            if((!std::isnan(volume2.at<cv::Point3d>(y,x).z))&&(!std::isinf(volume2.at<cv::Point3d>(y,x).z))&&(std::abs(volume2.at<cv::Point3d>(y,x).z)<1.0e+50)){
-                total_volume2 += volume2.at<cv::Point3d>(y,x).z*16; 
+            if((!std::isnan(volume2.at<cv::Point3f>(y,x).z))&&(!std::isinf(volume2.at<cv::Point3f>(y,x).z))&&(std::abs(volume2.at<cv::Point3f>(y,x).z)>0)){
+                total_volume2 += volume2.at<cv::Point3f>(y,x).z*16;
             }
         }
     std::cout<<std::endl;
