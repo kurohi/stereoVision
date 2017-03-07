@@ -32,6 +32,7 @@ add_library( WriteToMesh lib/write_to_mesh.cpp )
 add_library( ImgCutter lib/img_cutter.cpp )
 add_library( stereoVisionLibs ${LIB_SOURCES} ) 
 add_library( VolumeSubstraction lib/volume_substraction.cpp )
+add_library( Stereo3DTools lib/stereo_3d_tools.cpp )
 
 add_library( camera_control 3rdParty/capture_helper/lib/camera_control.cpp )
 
@@ -72,4 +73,4 @@ target_link_libraries( testSetTruckPlanes ${OpenCV_LIBS} ${PCL_LIBRARIES} TwinCa
 target_link_libraries( testGetTruckPercentagePlanes ${OpenCV_LIBS} ${PCL_LIBRARIES} TwinCamera camera_control Camera Preprocess StereoDepth pclView pclGetPlanes Screen )
 target_link_libraries( testImgCutter ${OpenCV_LIBS} ImgCutter )
 target_link_libraries( testSquareRecog ${OpenCV_LIBS} )
-target_link_libraries( testVolumeSubstraction ${OpenCV_LIBS} VolumeSubstraction )
+target_link_libraries( testVolumeSubstraction ${OpenCV_LIBS} Stereo3DTools VolumeSubstraction )

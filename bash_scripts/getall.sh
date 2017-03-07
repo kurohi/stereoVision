@@ -4,6 +4,7 @@ filelist=`ls ../img/cg_test/sample${1}/left*rect_filtered.png|wc -l`
 echo $filelist files
 for (( i=0; i<$filelist; i++ ))
 do
-    ./testVolumeSubstraction ../img/cg_test/calib/camera_param_left.yaml ../img/cg_test/sample${1}/left_000_rect_16filtered.xml ../img/cg_test/sample${1}/left_00${i}_rect_16filtered.xml > output.txt
+    ./testVolumeSubstraction ../img/cg_test/calib/camera_param_left.yaml ../img/cg_test/sample${1}/left_000_rect_16filtered.xml ../img/cg_test/sample${1}/left_00${i}_rect_16filtered.xml ../img/cg_test/sample${1}/left_00${i}_rect.jpg > output.txt
     mv output.txt ../img/cg_test/sample${1}/result_00${i}.txt
+    mv meshpoint.ply ../img/cg_test/sample${1}/3d_00${i}.ply
 done
