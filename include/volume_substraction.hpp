@@ -11,5 +11,6 @@ class VolumeSubstraction{
         ~VolumeSubstraction(){}
 
         static double max_volume;
+        static double angle;
         static void getVolumes(const cv::Mat &volume1, const cv::Mat &volume2, double &total_volume1, double &total_volume2);
 };

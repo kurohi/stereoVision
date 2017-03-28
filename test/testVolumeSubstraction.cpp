@@ -28,18 +28,18 @@ int main(int argc, char **argv){
   Stereo3DTools s3dtools1(disparity1, q_matrix);
   Stereo3DTools s3dtools2(disparity2, q_matrix);
 
-  cv::Point3f ctr_corner(510,-240,800);
-  cv::Point3f fbl_corner(-160,240,-300);
+  cv::Point3f ctr_corner(115,-5,720);
+  cv::Point3f fbl_corner(-115,200,90);
   cv::Mat rotation_matrix, rotation_matrix_aux;
   s3dtools1.getRotationMatrix(26.5, X_AXIS_INV, rotation_matrix);
-  s3dtools1.getRotationMatrix(180.0, Y_AXIS_INV, rotation_matrix_aux);
+  //s3dtools1.getRotationMatrix(180.0, Y_AXIS_INV, rotation_matrix_aux);
 
   s3dtools1.applyRotationMatrix(rotation_matrix);
   s3dtools2.applyRotationMatrix(rotation_matrix);
   s3dtools1.removeOutsideTheBox(ctr_corner, fbl_corner);
   s3dtools2.removeOutsideTheBox(ctr_corner, fbl_corner);
 
-  rotation_matrix = rotation_matrix_aux * rotation_matrix;
+  //rotation_matrix = rotation_matrix_aux * rotation_matrix;
   s3dtools1.applyRotationMatrix(rotation_matrix);
   s3dtools2.applyRotationMatrix(rotation_matrix);
 
@@ -56,6 +56,7 @@ int main(int argc, char **argv){
               closest_z = voxel;
           }
       }
+  #pragma omp parallel for collapse(2)
   for(int y=0; y<volume1.rows; y++)
       for(int x=0; x<volume1.cols; x++){
           volume1.at<cv::Vec3f>(y,x)[2] -= closest_z;
@@ -72,6 +73,6 @@ int main(int argc, char **argv){
   std::cout<<VolumeSubstraction::getVolumeRatio(volume1, volume2)<<std::endl;
 
   std::cout<<"Testing volume percentage: ";
-  std::cout<<VolumeSubstraction::getVolumePercentage(volume1, volume2)<<std::endl;
+  std::cout<<100-VolumeSubstraction::getVolumePercentage(volume1, volume2)<<std::endl;
   return 0;
 }
