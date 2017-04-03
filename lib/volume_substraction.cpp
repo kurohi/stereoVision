@@ -1,6 +1,6 @@
 #include "volume_substraction.hpp"
 
-double VolumeSubstraction::angle = 1.0*M_PI/180; 
+double VolumeSubstraction::angle = 0.11*M_PI/180; 
 
 double VolumeSubstraction::getVolumeDifference_ml(const cv::Mat &volume1, const cv::Mat &volume2){
     double total_volume1, total_volume2;

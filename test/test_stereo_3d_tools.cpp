@@ -36,8 +36,8 @@ int main(int argc, char **argv){
     //s3dtools.rotatePoints(110.0, X_AXIS);
 
     std::cout<<"Testing outside the box removal"<<std::endl;
-    cv::Point3f ctl_corner(134,-400,-70);
-    cv::Point3f fbr_corner(-42, 100, -270);
+    cv::Point3f ctl_corner(115, -15, 720);
+    cv::Point3f fbr_corner(-115, 200, 90);
     char c = 0;
     cv::Mat processed_disp;
     while(c!='q'){
