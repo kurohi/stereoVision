@@ -1,6 +1,7 @@
 #include "volume_substraction.hpp"
 
 double VolumeSubstraction::angle = 0.11*M_PI/180; 
+double VolumeSubstraction::unseen_volume = 588372.3;
 
 double VolumeSubstraction::getVolumeDifference_ml(const cv::Mat &volume1, const cv::Mat &volume2){
     double total_volume1, total_volume2;
@@ -27,10 +28,10 @@ void VolumeSubstraction::getVolumes(const cv::Mat &volume1, const cv::Mat &volum
             double distance1, distance2;
             distance1 = distance2 = 0;
             if((!std::isnan(volume1.at<cv::Point3f>(y,x).z))&&(!std::isinf(volume1.at<cv::Point3f>(y,x).z))&&(std::abs(volume1.at<cv::Point3f>(y,x).z)>0)){
-                distance1 = volume1.at<cv::Point3f>(y,x).z/1000;
+                distance1 = volume1.at<cv::Point3f>(y,x).z;
             }
             if((!std::isnan(volume2.at<cv::Point3f>(y,x).z))&&(!std::isinf(volume2.at<cv::Point3f>(y,x).z))&&(std::abs(volume2.at<cv::Point3f>(y,x).z)>0)){
-                distance2 = volume2.at<cv::Point3f>(y,x).z/1000;
+                distance2 = volume2.at<cv::Point3f>(y,x).z;
             }
             if(distance1 != distance2){
                 double ratio1 = tan(angle)*distance1;
@@ -39,4 +40,6 @@ void VolumeSubstraction::getVolumes(const cv::Mat &volume1, const cv::Mat &volum
                 total_volume2 += M_PI*ratio2*ratio2*distance2/3;
             }
         }
+    total_volume1 += unseen_volume;
+    total_volume2 += unseen_volume;
 }
