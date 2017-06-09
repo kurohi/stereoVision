@@ -73,6 +73,6 @@ int main(int argc, char **argv){
   std::cout<<VolumeSubstraction::getVolumeRatio(volume1, volume2)<<std::endl;
 
   std::cout<<"Testing volume percentage: ";
-  std::cout<<100-VolumeSubstraction::getVolumePercentage(volume1, volume2)<<std::endl;
+  std::cout<<VolumeSubstraction::getVolumePercentage(volume1, volume2)<<std::endl;
   return 0;
 }
